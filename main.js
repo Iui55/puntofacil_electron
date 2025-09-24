@@ -1,5 +1,7 @@
-const { app, BrowserWindow } = require("electron/main");
+const { app, BrowserWindow, ipcMain } = require("electron/main");
 const path = require("path");
+
+let mainWindow;
 
 
 const createWindow = () => {
@@ -8,29 +10,31 @@ const createWindow = () => {
     height: 600,
     resizable: false,
     frame: false, // remove top bar
-    backgroundColor: "#00000000",
-    transparent: true, //
+    transparent: true, // To show rounded corner
+    roundedCorners: true, // Windows 11+, macOS
+    // backgroundColor: "#ffffff00",
     webPreferences: {
       preload: path.join(__dirname, "src/renderer.js"),
       contextIsolation: true,
     },
   });
 
-  win.loadFile("src/index.html");
+  win.loadFile("src/screens/login/login.html");
 };
 
-app.whenReady().then(() => {
-  createWindow();
+ipcMain.on("login-success", () => {
+  console.log("asdasdasd");
+  mainWindow.loadFile("src/screens/sales/sales.html");
 
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
+
+ipcMain.on("window-control", (event, action) => {
+  if (action === "minimize") mainWindow.minimize();
+  if (action === "maximize") {
+    mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
   }
+  if (action === "close") mainWindow.close();
 });
+
+app.whenReady().then(createWindow);

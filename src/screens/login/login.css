@@ -10,10 +10,12 @@ body {
 
 .window {
     width: 800px;
-    height: 500px;
-    background: #ffffff;
-    border-radius: 20px; /* Esquinas redondeadas */
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+    height: 600;
+    /* background: rgb(250, 0, 0); */
+    /* -electron-corner-smoothing: var(--percent); */
+    /* -electron-corner-smoothing: system-ui; */
+    border-radius: 16; /* Esquinas redondeadas */
+    /* box-shadow: 0px 8px 20px rgba(255, 0, 0, 0.2); */
     display: flex;
     flex-direction: column;
     overflow: hidden;
