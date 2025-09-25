@@ -1,12 +1,50 @@
-<body>
-  <!-- Barra superior -->
-  <div id="navbar">
-    <button id="salesBtn">Ventas</button>
-    <button id="productsBtn">Productos</button>
-  </div>
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PuntoFácil</title>
 
-  <!-- View container -->
-  <div id="content"></div>
+    <!-- Fuente -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- <script src="home.js"></script> -->
-</body>
+    <!-- Font Awesome (íconos) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="../sales/sales.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="top-bar">
+      <div class="left-section">
+        <div class="brand-circle">
+          <i class="fa-solid fa-cash-register"></i>
+        </div>
+        <span class="brand-text">PuntoFácil</span>
+      </div>
+
+      <nav class="center-section">
+        <button class="nav-btn" id="productsBtn">Productos</button>
+        <div class="divider"></div>
+        <button class="nav-btn active" id="salesBtn">Ventas</button>
+      </nav>
+
+      <div class="right-section">
+        <i class="fa-solid fa-user user-icon"></i>
+        <button class="user-btn" id="userBtn">Usuario</button>
+      </div>
+    </header>
+
+    <!-- Contenedor donde se cargan las vistas -->
+    <main id="content"></main>
+
+    <script src="home.js"></script>
+  </body>
+</html>

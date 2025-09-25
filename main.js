@@ -4,7 +4,6 @@ const path = require("path");
 let loginWindow;
 let homeWindow;
 
-
 const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
     width: 800,
@@ -21,7 +20,7 @@ const createLoginWindow = () => {
   });
 
   loginWindow.loadFile("src/screens/login/login.html");
-  loginWindow.webContents.openDevTools();
+  // loginWindow.webContents.openDevTools();
 };
 
 const createHomeWindow = () => {
@@ -38,22 +37,22 @@ const createHomeWindow = () => {
       contextIsolation: false,
     },
   });
-
   homeWindow.loadFile("src/screens/home/home.html");
-}
+  // homeWindow.webContents.openDevTools();
+};
 
 ipcMain.on("login-success", () => {
-  if (loginWindow) 
-    loginWindow.close();
+  if (loginWindow) loginWindow.close();
 
   createHomeWindow();
 });
 
-
 ipcMain.on("window-control", (event, action) => {
   if (action === "minimize") loginWindow.minimize();
   if (action === "maximize") {
-    loginWindow.isMaximized() ? loginWindow.unmaximize() : loginWindow.maximize();
+    loginWindow.isMaximized()
+      ? loginWindow.unmaximize()
+      : loginWindow.maximize();
   }
   if (action === "close") loginWindow.close();
 });
