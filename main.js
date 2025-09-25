@@ -20,28 +20,30 @@ const createLoginWindow = () => {
   });
 
   loginWindow.loadFile("src/screens/login/login.html");
+  loginWindow.webContents.openDevTools();
 };
 
 const createHomeWindow = () => {
   homeWindow = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 800,
+    height: 600,
     resizable: false,
     frame: false, // remove top bar
     transparent: true, // To show rounded corner
     roundedCorners: true, // Windows 11+, macOS
-    backgroundColor: "#ffffff00",
+    // backgroundColor: "#ffffff00",
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
   });
-  homeWindow.loadFile("src/screens/home/home.html");
-};
 
-// Evento cuando el login es exitoso (futuro)
+  homeWindow.loadFile("src/screens/home/home.html");
+}
+
 ipcMain.on("login-success", () => {
-  if (loginWindow) loginWindow.close();
+  if (loginWindow) 
+    loginWindow.close();
 
   createHomeWindow();
 });
@@ -49,9 +51,7 @@ ipcMain.on("login-success", () => {
 ipcMain.on("window-control", (event, action) => {
   if (action === "minimize") loginWindow.minimize();
   if (action === "maximize") {
-    loginWindow.isMaximized()
-      ? loginWindow.unmaximize()
-      : loginWindow.maximize();
+    loginWindow.isMaximized() ? loginWindow.unmaximize() : loginWindow.maximize();
   }
   if (action === "close") loginWindow.close();
 });
