@@ -1,11 +1,12 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
 const path = require("path");
 
-let mainWindow;
+let loginWindow;
+let homeWindow;
 
 
-const createWindow = () => {
-  const win = new BrowserWindow({
+const createLoginWindow = () => {
+  loginWindow = new BrowserWindow({
     width: 800,
     height: 600,
     resizable: false,
@@ -19,22 +20,42 @@ const createWindow = () => {
     },
   });
 
-  win.loadFile("src/screens/login/login.html");
+  loginWindow.loadFile("src/screens/login/login.html");
+  loginWindow.webContents.openDevTools();
 };
 
-ipcMain.on("login-success", () => {
-  console.log("asdasdasd");
-  mainWindow.loadFile("src/screens/sales/sales.html");
+const createHomeWindow = () => {
+  homeWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    resizable: false,
+    frame: false, // remove top bar
+    transparent: true, // To show rounded corner
+    roundedCorners: true, // Windows 11+, macOS
+    // backgroundColor: "#ffffff00",
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
 
+  homeWindow.loadFile("src/screens/home/home.html");
+}
+
+ipcMain.on("login-success", () => {
+  if (loginWindow) 
+    loginWindow.close();
+
+  createHomeWindow();
 });
 
 
 ipcMain.on("window-control", (event, action) => {
-  if (action === "minimize") mainWindow.minimize();
+  if (action === "minimize") loginWindow.minimize();
   if (action === "maximize") {
-    mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+    loginWindow.isMaximized() ? loginWindow.unmaximize() : loginWindow.maximize();
   }
-  if (action === "close") mainWindow.close();
+  if (action === "close") loginWindow.close();
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(createLoginWindow);

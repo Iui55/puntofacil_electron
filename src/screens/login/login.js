@@ -1,10 +1,21 @@
-document.getElementById("loginForm").addEventListener("submit", () => {
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
-  console.log("asdasdasd");
-  if (user === "admin" && pass === "1234") {
+console.log("login.js loaded");
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("login.js form");
+  document.getElementById("loginForm").addEventListener("submit", () => {
+  console.log("log innnnnnn");
+  try {
+
+    // const user = document.getElementById("username").value;
+    // const pass = document.getElementById("password").value;
     window.electronAPI.loginSuccess();
-  } else {
-    alert("Usuario o contraseña incorrectos");
+  } catch (error) {
+    console.error("Error during login:", error);
   }
+  // console.log("asdasdasd");
+  // if (user === "admin" && pass === "1234") {
+  //   window.electronAPI.loginSuccess();
+  // } else {
+  //   alert("Usuario o contraseña incorrectos");
+  // }
+  });
 });
