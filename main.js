@@ -25,8 +25,8 @@ const createLoginWindow = () => {
 
 const createHomeWindow = () => {
   homeWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     resizable: false,
     frame: false, // remove top bar
     transparent: true, // To show rounded corner

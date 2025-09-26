@@ -1,21 +1,3 @@
-// const loadView = async (viewName) => {
-//   const base_file = `../${viewName}/${viewName}.html`;
-//   const res = await fetch(`../${viewName}/${viewName}.html`);
-//   const html = await res.text();
-//   document.getElementById("content").innerHTML = html;
-
-//   // Quitar CSS anterior (si existe)
-//   const oldStyle = document.getElementById("dynamic-style");
-//   if (oldStyle) oldStyle.remove();
-
-//   // Agregar nuevo CSS (si existe)
-//   const link = document.createElement("link");
-//   link.rel = "stylesheet";
-//   link.href = cssPath;
-//   link.id = "dynamic-style";
-//   document.head.appendChild(link);
-// };
-
 document.addEventListener("DOMContentLoaded", () => {
   const content = document.getElementById("content");
   const loadView = async (view) => {
@@ -35,15 +17,20 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Botones de la barra
-  document.getElementById("salesBtn").addEventListener("click", () => {
+  const salesBtn = document.getElementById("salesBtn");
+  const productsBtn = document.getElementById("productsBtn");
+  salesBtn.addEventListener("click", () => {
     loadView("sales");
+    productsBtn.classList.remove("active");
+    salesBtn.classList.add("active");
   });
 
-  document.getElementById("productsBtn").addEventListener("click", () => {
+  productsBtn.addEventListener("click", () => {
     loadView("products");
-
+    salesBtn.classList.remove("active");
+    productsBtn.classList.add("active");
   });
 
   // Vista inicial
-  loadView("sales");
+  loadView("products");
 });
