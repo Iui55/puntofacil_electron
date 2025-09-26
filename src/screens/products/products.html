@@ -3,23 +3,7 @@
     <!-- Toolbar superior -->
     <div class="toolbar">
       <!-- Barra de búsqueda -->
-      <div class="search-wrapper">
-        <div class="search-pill">
-          <i class="fa fa-search"></i>
-          <input
-            id="searchProductInput"
-            class="search-input"
-            placeholder="Buscar producto"
-          />
-          <button
-            id="clearSearchProduct"
-            class="clear-btn"
-            title="Limpiar búsqueda"
-          >
-            <i class="fa fa-times"></i>
-          </button>
-        </div>
-      </div>
+      <div class="search-products" id="searchBarProducts"> </div>
 
       <!-- Botón registrar producto -->
       <button id="registerProductBtn" class="primary-btn">
@@ -40,99 +24,7 @@
     </div>
 
     <!-- Tabla de productos -->
-    <div class="table-box">
-      <div class="table-header">
-        <div class="col">Nombre producto</div>
-        <div class="col">Código de barras</div>
-        <div class="col">Stock</div>
-        <div class="col">Precio compra</div>
-        <div class="col">Precio venta</div>
-        <div class="col">Acciones</div>
-      </div>
-
-      <div id="productTableBody" class="table-body">
-        <!-- Filas de ejemplo -->
-        <div class="table-row">
-          <div class="col">Refresco 600 ml.</div>
-          <div class="col">0987654321234</div>
-          <div class="col">13</div>
-          <div class="col">12.50</div>
-          <div class="col">22.50</div>
-          <div class="col actions">
-            <button class="action-btn edit">
-              <i class="fa fa-pen"></i>
-            </button>
-            <button class="action-btn delete">
-              <i class="fa fa-trash"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="table-row">
-          <div class="col">Leche entera 1L</div>
-          <div class="col">1234567890123</div>
-          <div class="col">25</div>
-          <div class="col">17.00</div>
-          <div class="col">24.50</div>
-          <div class="col actions">
-            <button class="action-btn edit">
-              <i class="fa fa-pen"></i>
-            </button>
-            <button class="action-btn delete">
-              <i class="fa fa-trash"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="table-row">
-          <div class="col">Arroz 900g</div>
-          <div class="col">4567891234567</div>
-          <div class="col">40</div>
-          <div class="col">18.50</div>
-          <div class="col">25.00</div>
-          <div class="col actions">
-            <button class="action-btn edit">
-              <i class="fa fa-pen"></i>
-            </button>
-            <button class="action-btn delete">
-              <i class="fa fa-trash"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="table-row">
-          <div class="col">Aceite vegetal 1L</div>
-          <div class="col">7890123456789</div>
-          <div class="col">15</div>
-          <div class="col">32.00</div>
-          <div class="col">45.00</div>
-          <div class="col actions">
-            <button class="action-btn edit">
-              <i class="fa fa-pen"></i>
-            </button>
-            <button class="action-btn delete">
-              <i class="fa fa-trash"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="table-row">
-          <div class="col">Cereal 500g</div>
-          <div class="col">5678901234567</div>
-          <div class="col">22</div>
-          <div class="col">35.00</div>
-          <div class="col">49.00</div>
-          <div class="col actions">
-            <button class="action-btn edit">
-              <i class="fa fa-pen"></i>
-            </button>
-            <button class="action-btn delete">
-              <i class="fa fa-trash"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="productsTable"></div>
 
     <!-- Paginación -->
     <div class="paginator">
@@ -147,3 +39,4 @@
     </div>
   </section>
 </div>
+<script src="products.js"></script>

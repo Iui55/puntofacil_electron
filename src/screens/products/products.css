@@ -1,11 +1,12 @@
 /* ====== BODY ====== */
 .body-content {
   flex: 1;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .products-section {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 10px;
 }
@@ -15,34 +16,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.search-wrapper {
-  flex: 1;
-}
-
-.search-pill {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 25px;
-  padding: 5px 10px;
-  gap: 8px;
-}
-
-.search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 14px;
-}
-
-.clear-btn {
-  background: none;
-  border: none;
-  color: #aaa;
-  cursor: pointer;
 }
 
 .primary-btn {
