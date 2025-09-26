@@ -4,12 +4,22 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "dist": "electron-builder",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "build": {
+    "appId": "com.logi.puntofacil",
+    "productName": "PuntoFácil",
+    "win": {
+      "target": "nsis",
+      "icon": "src/assets/images/puntofacil.jpg"
+    }
+  },
+  "author": "LoGi",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "electron": "^38.1.2"
+    "electron": "^38.1.2",
+    "electron-builder": "^26.0.12"
   }
 }
