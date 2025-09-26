@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
 }
+
 html {
   height: 100%;
 }
@@ -93,5 +94,36 @@ body {
   color: white;
   padding: 8px 12px;
   border-radius: 8px;
+  cursor: pointer;
+}
+
+
+/* COMPONENTS */
+
+.search-wrapper {
+  flex: 1;
+}
+
+.search-pill {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  padding: 5px 10px;
+  gap: 8px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.clear-btn {
+  background: none;
+  border: none;
+  color: #aaa;
   cursor: pointer;
 }

@@ -12,11 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const newScript = document.createElement("script");
       newScript.src = `${mainPath}${view}.js`; 
       document.body.appendChild(newScript);
+      console.log(oldScript);
       oldScript.remove();
     });
   };
 
-  // Botones de la barra
+  // Navigation buttons
   const salesBtn = document.getElementById("salesBtn");
   const productsBtn = document.getElementById("productsBtn");
   salesBtn.addEventListener("click", () => {
@@ -31,6 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     productsBtn.classList.add("active");
   });
 
-  // Vista inicial
+  // Init view
   loadView("products");
 });
