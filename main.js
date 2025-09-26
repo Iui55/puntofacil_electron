@@ -39,6 +39,7 @@ const createHomeWindow = () => {
   homeWindow.loadFile("src/screens/home/home.html");
 };
 
+// Evento cuando el login es exitoso (futuro)
 ipcMain.on("login-success", () => {
   if (loginWindow) loginWindow.close();
 
