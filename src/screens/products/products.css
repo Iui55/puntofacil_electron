@@ -1,0 +1,273 @@
+/* ====== GENERAL ====== */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f8fafc;
+  margin: 0;
+  padding: 0;
+}
+
+.window {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ====== HEADER ====== */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e3a8a;
+  padding: 10px 20px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  color: #f8fafc;
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-circle {
+  width: 40px;
+  height: 40px;
+  background-color: #0f2453;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #f8fafc;
+}
+
+.brand-text {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.center-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: #f8fafc;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-btn.active {
+  font-weight: 600;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-icon {
+  font-size: 20px;
+}
+
+.user-btn {
+  background: transparent;
+  border: none;
+  color: #f8fafc;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.user-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ====== BODY ====== */
+.body-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.products-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ====== TOOLBAR ====== */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-wrapper {
+  flex: 1;
+}
+
+.search-pill {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  padding: 5px 10px;
+  gap: 8px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.clear-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.primary-btn {
+  background-color: #1e3a8a;
+  color: #f8fafc;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.records-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ====== TABLA ====== */
+.table-box {
+  background: #f5f5f5;
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 400px;
+  padding: 10px;
+}
+
+.table-header,
+.table-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  padding: 10px;
+  align-items: center;
+}
+
+.table-header {
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.table-row {
+  background: #fff;
+  border-radius: 8px;
+  color: #1e3a8a;
+}
+
+.table-row .col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ====== ACCIONES ====== */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.action-btn {
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #f8fafc;
+  font-size: 14px;
+}
+
+.action-btn.edit {
+  background-color: #3b82f6;
+}
+
+.action-btn.delete {
+  background-color: #ef4444;
+}
+
+/* ====== PAGINACIÓN ====== */
+.paginator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding-top: 10px;
+}
+
+.page-btn {
+  background: #1e3a8a;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pages {
+  display: flex;
+  gap: 5px;
+}
+
+.page-number {
+  background: #fff;
+  border: 1px solid #1e3a8a;
+  color: #1e3a8a;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.page-number.active {
+  background: #1e3a8a;
+  color: #fff;
+}

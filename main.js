@@ -3,32 +3,30 @@ const path = require("path");
 
 let mainWindow;
 
-
 const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 720,
     resizable: false,
-    frame: false, // remove top bar
-    transparent: true, // To show rounded corner
-    roundedCorners: true, // Windows 11+, macOS
-    // backgroundColor: "#ffffff00",
+    frame: false, // Sin barra superior
+    transparent: true, // Permitir esquinas redondeadas
+    roundedCorners: true, // Solo aplica en Windows 11 y macOS
     webPreferences: {
       preload: path.join(__dirname, "src/renderer.js"),
       contextIsolation: true,
     },
   });
 
-  win.loadFile("src/screens/login/login.html");
+  // 🔹 Cargar directamente la pantalla de productos
+  mainWindow.loadFile("src/screens/products/products.html");
 };
 
+// Evento cuando el login es exitoso (futuro)
 ipcMain.on("login-success", () => {
-  console.log("asdasdasd");
   mainWindow.loadFile("src/screens/sales/sales.html");
-
 });
 
-
+// Controles de ventana personalizados
 ipcMain.on("window-control", (event, action) => {
   if (action === "minimize") mainWindow.minimize();
   if (action === "maximize") {
