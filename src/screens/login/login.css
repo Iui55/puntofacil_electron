@@ -4,13 +4,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     font-family: Arial, sans-serif;
 }
 
 .window {
-    width: 800px;
-    height: 600;
+    width: 100%;
+    height: 100%;
     /* background: rgb(250, 0, 0); */
     /* -electron-corner-smoothing: var(--percent); */
     /* -electron-corner-smoothing: system-ui; */

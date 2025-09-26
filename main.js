@@ -1,38 +1,59 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
 const path = require("path");
 
-let mainWindow;
+let loginWindow;
+let homeWindow;
 
-const createWindow = () => {
-  mainWindow = new BrowserWindow({
+const createLoginWindow = () => {
+  loginWindow = new BrowserWindow({
     width: 1280,
     height: 720,
     resizable: false,
-    frame: false, // Sin barra superior
-    transparent: true, // Permitir esquinas redondeadas
-    roundedCorners: true, // Solo aplica en Windows 11 y macOS
+    frame: false, // remove top bar
+    transparent: true, // To show rounded corner
+    roundedCorners: true, // Windows 11+, macOS
+    backgroundColor: "#ffffff00",
     webPreferences: {
       preload: path.join(__dirname, "src/renderer.js"),
       contextIsolation: true,
     },
   });
 
-  // 🔹 Cargar directamente la pantalla de productos
-  mainWindow.loadFile("src/screens/products/products.html");
+  loginWindow.loadFile("src/screens/login/login.html");
+  loginWindow.webContents.openDevTools();
 };
 
-// Evento cuando el login es exitoso (futuro)
+const createHomeWindow = () => {
+  homeWindow = new BrowserWindow({
+    width: 1280,
+    height: 720,
+    resizable: false,
+    frame: false, // remove top bar
+    transparent: true, // To show rounded corner
+    roundedCorners: true, // Windows 11+, macOS
+    // backgroundColor: "#ffffff00",
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+
+  homeWindow.loadFile("src/screens/home/home.html");
+}
+
 ipcMain.on("login-success", () => {
-  mainWindow.loadFile("src/screens/sales/sales.html");
+  if (loginWindow) 
+    loginWindow.close();
+
+  createHomeWindow();
 });
 
-// Controles de ventana personalizados
 ipcMain.on("window-control", (event, action) => {
-  if (action === "minimize") mainWindow.minimize();
+  if (action === "minimize") loginWindow.minimize();
   if (action === "maximize") {
-    mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+    loginWindow.isMaximized() ? loginWindow.unmaximize() : loginWindow.maximize();
   }
-  if (action === "close") mainWindow.close();
+  if (action === "close") loginWindow.close();
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(createLoginWindow);
