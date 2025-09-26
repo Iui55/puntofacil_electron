@@ -1,6 +1,4 @@
-// src/js/ventas.js
 (() => {
-  // ----- Datos de ejemplo (puedes reemplazar por tu BD) -----
   const SAMPLE_PRODUCTS = [];
   // Generar 60 productos de prueba
   for (let i = 1; i <= 60; i++) {
@@ -280,5 +278,6 @@
     renderCatalog();
   }
 
-  document.addEventListener("DOMContentLoaded", init);
-})();
+  init();
+})(); // ----- Datos de ejemplo (puedes reemplazar por tu BD) -----
+

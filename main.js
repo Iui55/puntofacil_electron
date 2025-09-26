@@ -6,13 +6,13 @@ let homeWindow;
 
 const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     resizable: false,
     frame: false, // remove top bar
     transparent: true, // To show rounded corner
     roundedCorners: true, // Windows 11+, macOS
-    // backgroundColor: "#ffffff00",
+    backgroundColor: "#ffffff00",
     webPreferences: {
       preload: path.join(__dirname, "src/renderer.js"),
       contextIsolation: true,
@@ -20,25 +20,23 @@ const createLoginWindow = () => {
   });
 
   loginWindow.loadFile("src/screens/login/login.html");
-  // loginWindow.webContents.openDevTools();
 };
 
 const createHomeWindow = () => {
   homeWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     resizable: false,
     frame: false, // remove top bar
     transparent: true, // To show rounded corner
     roundedCorners: true, // Windows 11+, macOS
-    // backgroundColor: "#ffffff00",
+    backgroundColor: "#ffffff00",
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
   });
   homeWindow.loadFile("src/screens/home/home.html");
-  // homeWindow.webContents.openDevTools();
 };
 
 ipcMain.on("login-success", () => {
