@@ -1,7 +1,5 @@
 (() => {
   const path = require("path");
-  // console.log("Products screen loaded");
-  // const { BrowserWindow } = require("electron").remote;
   const SearchBar = require("../components/searchBar/searchBar.js");
   const TableData = require("../components/tableData/tableData.js");
 
@@ -34,24 +32,30 @@
     ],
     data: SAMPLE_PRODUCTS,
   });
+  document.addEventListener("DOMContentLoaded", () => {
+    const btnRegister = document.getElementById("registerProductBtn");
 
-  // const btnRegister = document.getElementById("registerProductBtn");
+    btnRegister.addEventListener("click", () => {
+      const currentWindow = remote.getCurrentWindow();
 
-  // btnRegister.addEventListener("click", () => {
-  //   const modal = new BrowserWindow({
-  //     width: 650,
-  //     height: 550,
-  //     parent: require("electron").remote.getCurrentWindow(),
-  //     modal: true,
-  //     frame: false,
-  //     resizable: false,
-  //     backgroundColor: "#00000000", // transparente
-  //     webPreferences: {
-  //       nodeIntegration: true,
-  //       contextIsolation: false,
-  //     },
-  //   });
+      // Crear ventana para "product-add"
+      const productAddWindow = new BrowserWindow({
+        width: 650,
+        height: 550,
+        frame: false,
+        resizable: false,
+        webPreferences: {
+          nodeIntegration: true,
+          contextIsolation: false,
+        },
+      });
 
-  //   modal.loadFile(path.join(__dirname, "product-form/product-form.html"));
-  // });
+      productAddWindow.loadFile(
+        path.join(__dirname, "../product-add/product-add.html")
+      );
+
+      // Cerrar ventana actual
+      currentWindow.close();
+    });
+  });
 })();

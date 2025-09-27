@@ -1,0 +1,73 @@
+/* ===== HEADER ===== */
+.header {
+  height: 50px;
+  background-color: #1e3a8a;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  margin-bottom: 20px;
+}
+
+/* ===== CONTENEDOR DEL FORMULARIO ===== */
+.form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: #1e3a8a;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.form-group select {
+  cursor: pointer;
+}
+
+/* ===== FOOTER ===== */
+.footer-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.btn-back {
+  background-color: #6b7280;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-save {
+  background-color: #1e3a8a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-back:hover {
+  background-color: #4b5563;
+}
+
+.btn-save:hover {
+  background-color: #15306d;
+}
