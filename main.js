@@ -6,8 +6,8 @@ let homeWindow;
 
 const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 800,
+    height: 600,
     resizable: false,
     frame: false, // remove top bar
     transparent: true, // To show rounded corner
@@ -20,13 +20,13 @@ const createLoginWindow = () => {
   });
 
   loginWindow.loadFile("src/screens/login/login.html");
-  loginWindow.webContents.openDevTools();
+  //loginWindow.webContents.openDevTools();
 };
 
 const createHomeWindow = () => {
   homeWindow = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 1024,
+    height: 650,
     resizable: false,
     frame: false, // remove top bar
     transparent: true, // To show rounded corner
