@@ -1,8 +1,15 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
+const { runMigrations } = require("./src/data/database/migrations.js");
+const { UsersRepo } = require("./src/data/repository/usersRepo.js");
+const { ProductsRepo } = require("./src/data/repository/productsRepo.js");
+
 const path = require("path");
 
 let loginWindow;
 let homeWindow;
+
+const userRepo = new UsersRepo();
+const productsRepo = new ProductsRepo();
 
 const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
@@ -57,4 +64,7 @@ ipcMain.on("window-control", (event, action) => {
   if (action === "close") loginWindow.close();
 });
 
-app.whenReady().then(createLoginWindow);
+app.whenReady().then(() => {
+  runMigrations();
+  createLoginWindow();
+});
