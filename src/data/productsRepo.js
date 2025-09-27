@@ -1,8 +1,24 @@
 import db from "./database/db.js";
 
 export class ProductsRepo {
+  
   getAllProducts() {
     return db.prepare("SELECT * FROM products").all();
+  }
+
+  getProducts(toSearch) {
+    console.log("Searching products in DB:", toSearch);
+    return db
+      .prepare(
+        `
+      SELECT *
+      FROM products
+      WHERE CAST(id AS TEXT) LIKE '%' || ? || '%'
+            OR name LIKE '%' || ? || '%' COLLATE NOCASE
+            OR description LIKE '%' || ? || '%' COLLATE NOCASE
+    `
+      )
+      .all(toSearch, toSearch, toSearch);
   }
 
   addProduct(product, userId) {
