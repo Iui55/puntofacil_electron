@@ -98,8 +98,9 @@ body {
 }
 
 
-/* COMPONENTS */
+/**** COMPONENTS ****/
 
+/* ====== SearchBar ====== */
 .search-wrapper {
   flex: 1;
 }
@@ -126,4 +127,70 @@ body {
   border: none;
   color: #aaa;
   cursor: pointer;
+}
+
+
+/* ====== TableData ====== */
+.table-box {
+  background: #f5f5f5;
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 400px;
+  padding: 10px;
+}
+
+.table-header,
+.table-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  padding: 10px;
+  align-items: center;
+}
+
+.table-header {
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.table-row {
+  background: #fff;
+  border-radius: 8px;
+  color: #1e3a8a;
+}
+
+.table-row .col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ====== ACCIONES ====== */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.action-btn {
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #f8fafc;
+  font-size: 14px;
+}
+
+.action-btn.edit {
+  background-color: #3b82f6;
+}
+
+.action-btn.delete {
+  background-color: #ef4444;
 }
