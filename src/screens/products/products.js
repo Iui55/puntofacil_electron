@@ -1,28 +1,12 @@
 (() => {
+  const { ipcRenderer } = require("electron");
   const path = require("path");
-  // console.log("Products screen loaded");
-  // const { BrowserWindow } = require("electron").remote;
+
+  // Componentes
   const SearchBar = require("../components/searchBar/searchBar.js");
   const TableData = require("../components/tableData/tableData.js");
 
-  const sbProducts = new SearchBar({
-    container: document.getElementById("searchBarProducts"),
-    placeholder: "Buscar productos",
-  });
-
-  // ----- Estado -----
-  const SAMPLE_PRODUCTS = [];
-  // Generar 60 productos de prueba
-  for (let i = 1; i <= 60; i++) {
-    SAMPLE_PRODUCTS.push({
-      name: i % 4 === 0 ? `Refresco 600 ml. ${i}` : `Producto ${i}`,
-      id: i,
-      stock: Math.floor(5 + (i % 10) * 3),
-      price: i % 5 === 0 ? 12.5 + (i % 3) * 5 : 25.0,
-      cost: i % 3 === 0 ? 10.0 + (i % 4) * 4 : 15.0,
-    });
-  }
-
+  // ----- Components state -----
   const productsTable = new TableData({
     container: document.getElementById("productsTable"),
     headers: [
@@ -32,8 +16,31 @@
       { label: "Precio compra", key: "cost" },
       { label: "Precio venta", key: "price" },
     ],
-    data: SAMPLE_PRODUCTS,
+    data: [],
   });
+
+  const sbProducts = new SearchBar({
+    container: document.getElementById("searchBarProducts"),
+    placeholder: "Buscar productos",
+    onSearch: async (toSearch) => {
+      console.log("Searching for:", toSearch);
+      const products = await ipcRenderer.invoke("products:get", { toSearch });
+      productsTable.setData(products);
+    },
+    onClear: () => {
+      console.log("Clearing search");
+      loadProducts(productsTable);
+    },
+  });
+
+  loadProducts(productsTable);
+  
+  
+  // Load products from main process
+  async function loadProducts(table) {
+    const products = await ipcRenderer.invoke("products:getAll");
+    table.setData(products);
+  }
 
   // const btnRegister = document.getElementById("registerProductBtn");
 

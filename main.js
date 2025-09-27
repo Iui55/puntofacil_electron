@@ -1,15 +1,13 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
 const { runMigrations } = require("./src/data/database/migrations.js");
-const { UsersRepo } = require("./src/data/usersRepo.js");
-const { ProductsRepo } = require("./src/data/productsRepo.js");
+const productsService = require("./src/services/productsService.js");
+// const userService = require("./src/services/userService.js");
+
 
 const path = require("path");
 
 let loginWindow;
 let homeWindow;
-
-let userRepo;
-let productsRepo;
 
 const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
@@ -64,10 +62,18 @@ ipcMain.on("window-control", (event, action) => {
   if (action === "close") loginWindow.close();
 });
 
+// ---- Products IPC handlers ----
+ipcMain.handle("products:getAll", () => {
+  return productsService.getAllProducts();
+});
+
+ipcMain.handle("products:get", (event, data) => {
+  console.log("Searching products");
+  return productsService.getProducts(data.toSearch);
+});
+
+
 app.whenReady().then(() => {
   runMigrations();
-  userRepo = new UsersRepo();
-  productsRepo = new ProductsRepo();
-  
   createLoginWindow();
 });
