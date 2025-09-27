@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const productsBtn = document.getElementById("productsBtn");
   const newSaleBtn = document.getElementById("newSaleBtn");
   salesBtn.addEventListener("click", () => {
-    //loadView("sales");
+    loadView("sales");
     productsBtn.classList.remove("active");
     salesBtn.classList.add("active");
     newSaleBtn.classList.remove("active");
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   newSaleBtn.addEventListener("click", () => {
-    loadView("sales");
+    loadView("saleform");
     productsBtn.classList.remove("active");
     salesBtn.classList.remove("active");
     newSaleBtn.classList.add("active");

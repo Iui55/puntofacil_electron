@@ -97,7 +97,6 @@ body {
   cursor: pointer;
 }
 
-
 /**** COMPONENTS ****/
 
 /* ====== SearchBar ====== */
@@ -129,7 +128,6 @@ body {
   cursor: pointer;
 }
 
-
 /* ====== TableData ====== */
 .table-box {
   background: #f5f5f5;
@@ -142,7 +140,8 @@ body {
 .table-header,
 .table-row {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  justify-items: center;
   gap: 10px;
   padding: 10px;
   align-items: center;
