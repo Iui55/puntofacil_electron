@@ -1,42 +1,40 @@
-<div class="body-content">
-  <section class="products-section">
-    <!-- Toolbar superior -->
-    <div class="toolbar">
-      <!-- Barra de búsqueda -->
-      <div class="search-products" id="searchBarProducts"> </div>
+<section class="products-section">
+  <!-- Toolbar superior -->
+  <div class="toolbar">
+    <!-- Barra de búsqueda -->
+    <div class="search-products" id="searchBarProducts"></div>
 
-      <!-- Botón registrar producto -->
-      <button id="registerProductBtn" class="primary-btn">
-        Registrar producto
-      </button>
+    <!-- Botón registrar producto -->
+    <button id="registerProductBtn" class="primary-btn">
+      Registrar producto
+    </button>
 
-      <!-- Selector de cantidad -->
-      <div class="selector-wrapper">
-        <span class="toolbar-text">Mostrando</span>
-        <select id="pageSize" class="select-small">
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-        <span class="toolbar-text">registros</span>
-      </div>
+    <!-- Selector de cantidad -->
+    <div class="selector-wrapper">
+      <span class="toolbar-text">Mostrando</span>
+      <select id="pageSize" class="select-small">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <span class="toolbar-text">registros</span>
     </div>
+  </div>
 
-    <!-- Tabla de productos -->
-    <div id="productsTable"></div>
+  <!-- Tabla de productos -->
+  <div id="productsTable"></div>
 
-    <!-- Paginación -->
-    <div class="paginator">
-      <button id="prevPage" class="page-btn">Anterior</button>
-      <div id="pagesContainer" class="pages">
-        <button class="page-number active">1</button>
-        <button class="page-number">2</button>
-        <button class="page-number">3</button>
-        <button class="page-number">4</button>
-      </div>
-      <button id="nextPage" class="page-btn">Siguiente</button>
+  <!-- Paginación -->
+  <div class="paginator">
+    <button id="prevPage" class="page-btn">Anterior</button>
+    <div id="pagesContainer" class="pages">
+      <button class="page-number active">1</button>
+      <button class="page-number">2</button>
+      <button class="page-number">3</button>
+      <button class="page-number">4</button>
     </div>
-  </section>
-</div>
+    <button id="nextPage" class="page-btn">Siguiente</button>
+  </div>
+</section>
 <script src="products.js"></script>
