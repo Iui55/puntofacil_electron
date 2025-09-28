@@ -9,7 +9,6 @@
 
 /* ===== CONTENEDOR DEL FORMULARIO ===== */
 .form-container {
-  background-color: #1e3a8a;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;

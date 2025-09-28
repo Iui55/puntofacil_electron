@@ -1,4 +1,5 @@
 (() => {
+  const { ipcRenderer } = require("electron");
   const path = require("path");
   // console.log("Products screen loaded");
   // const { BrowserWindow } = require("electron").remote;
@@ -35,23 +36,10 @@
     data: SAMPLE_PRODUCTS,
   });
 
-  // const btnRegister = document.getElementById("registerProductBtn");
+  const btnRegister = document.getElementById("registerProductBtn");
 
-  // btnRegister.addEventListener("click", () => {
-  //   const modal = new BrowserWindow({
-  //     width: 650,
-  //     height: 550,
-  //     parent: require("electron").remote.getCurrentWindow(),
-  //     modal: true,
-  //     frame: false,
-  //     resizable: false,
-  //     backgroundColor: "#00000000", // transparente
-  //     webPreferences: {
-  //       nodeIntegration: true,
-  //       contextIsolation: false,
-  //     },
-  //   });
-
-  //   modal.loadFile(path.join(__dirname, "product-form/product-form.html"));
-  // });
+  btnRegister.addEventListener("click", () => {
+    // Avisamos al proceso principal que queremos abrir product-add
+    ipcRenderer.send("open-product-add");
+  });
 })();
