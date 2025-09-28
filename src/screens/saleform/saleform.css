@@ -239,44 +239,6 @@
   filter: brightness(0.95);
 }
 
-/* paginator */
-.paginator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 6px;
-}
-.page-btn {
-  background: #193779;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-}
-.pages {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  margin: 0 8px;
-}
-.page-number {
-  width: 36px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #cfdff6;
-  background: white;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.page-number.active {
-  background: #eaf0ff;
-  border-color: #193779;
-}
-
 /* custom scrollbars (WebKit) */
 .items-list::-webkit-scrollbar,
 .catalog-list::-webkit-scrollbar {
