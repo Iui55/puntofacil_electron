@@ -41,5 +41,6 @@
   btnRegister.addEventListener("click", () => {
     // Avisamos al proceso principal que queremos abrir product-add
     ipcRenderer.send("open-product-add");
+    document.getElementById("overlay").style.display = "block";
   });
 })();

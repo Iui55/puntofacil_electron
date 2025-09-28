@@ -3,7 +3,7 @@ const path = require("path");
 
 let loginWindow;
 let homeWindow;
-let productsWindow;
+// let productsWindow;
 let productAddWindow;
 
 /* ===========================
@@ -52,23 +52,23 @@ const createHomeWindow = () => {
 /* ===========================
    PRODUCTS
 =========================== */
-const createProductsWindow = () => {
-  productsWindow = new BrowserWindow({
-    width: 1024,
-    height: 650,
-    resizable: false,
-    frame: false,
-    transparent: true,
-    roundedCorners: true,
-    icon: path.join(__dirname, "assets/images/puntofacil.jpg"),
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  });
+// const createProductsWindow = () => {
+//   productsWindow = new BrowserWindow({
+//     width: 1024,
+//     height: 650,
+//     resizable: false,
+//     frame: false,
+//     transparent: true,
+//     roundedCorners: true,
+//     icon: path.join(__dirname, "assets/images/puntofacil.jpg"),
+//     webPreferences: {
+//       nodeIntegration: true,
+//       contextIsolation: false,
+//     },
+//   });
 
-  productsWindow.loadFile("src/screens/products/products.html");
-};
+//   productsWindow.loadFile("src/screens/products/products.html");
+// };
 
 /* ===========================
    PRODUCT ADD
@@ -77,6 +77,8 @@ const createProductAddWindow = () => {
   productAddWindow = new BrowserWindow({
     width: 650,
     height: 550,
+    parent: homeWindow,
+    modal: true,
     resizable: false,
     frame: false,
     transparent: true,
@@ -89,6 +91,12 @@ const createProductAddWindow = () => {
   });
 
   productAddWindow.loadFile("src/screens/product-add/product-add.html");
+  productAddWindow.on("ready-to-show", productAddWindow.show);
+
+  productAddWindow.on("closed", () => {
+    productAddWindow = null;
+    homeWindow.webContents.send("modal-closed");
+  });
 };
 
 /* ===========================
@@ -116,14 +124,12 @@ ipcMain.on("window-control", (event, action) => {
 
 // Abrir Product-Add y cerrar Products
 ipcMain.on("open-product-add", () => {
-  if (productsWindow) productsWindow.close();
   createProductAddWindow();
 });
 
 // Regresar de Product-Add a Products
 ipcMain.on("back-to-products", () => {
-  if (productAddWindow) productAddWindow.close();
-  createProductsWindow();
+  if (productAddWindow !== null) productAddWindow.close();
 });
 
 app.whenReady().then(createLoginWindow);

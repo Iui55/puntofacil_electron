@@ -1,4 +1,13 @@
 /* ===== HEADER ===== */
+body {
+  margin: 0;
+  padding: 0;
+  background: white;
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
 .header {
   height: 50px;
   background-color: #1e3a8a;

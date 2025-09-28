@@ -1,5 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const { ipcRenderer } = require("electron");
+
+  ipcRenderer.on("modal-closed", () => {
+    document.getElementById("overlay").style.display = "none";
+  });
+
   const content = document.getElementById("content");
+
   const loadView = async (view) => {
     mainPath = `../${view}/`;
     const res = await fetch(`${mainPath}${view}.html`);
@@ -12,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const newScript = document.createElement("script");
       newScript.src = `${mainPath}${view}.js`;
       document.body.appendChild(newScript);
-      console.log(oldScript);
       oldScript.remove();
     });
   };
@@ -41,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     salesBtn.classList.remove("active");
     newSaleBtn.classList.add("active");
   });
+
   // Init view
   loadView("products");
 });
