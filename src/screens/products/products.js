@@ -17,29 +17,41 @@
       { label: "Precio venta", key: "price" },
     ],
     data: [],
+    loadData: async (page, pageSize) => {
+      await loadProducts(productsTable, page, pageSize);
+    },
   });
 
   const sbProducts = new SearchBar({
     container: document.getElementById("searchBarProducts"),
     placeholder: "Buscar productos",
     onSearch: async (toSearch) => {
-      console.log("Searching for:", toSearch);
-      const products = await ipcRenderer.invoke("products:get", { toSearch });
-      productsTable.setData(products);
+      loadProducts(productsTable, null, null, toSearch);
     },
     onClear: () => {
-      console.log("Clearing search");
       loadProducts(productsTable);
     },
   });
 
   loadProducts(productsTable);
-  
-  
+
   // Load products from main process
-  async function loadProducts(table) {
-    const products = await ipcRenderer.invoke("products:getAll");
-    table.setData(products);
+  async function loadProducts(
+    table,
+    page = 1,
+    pageSize = 10,
+    toSearch = sbProducts.lastSearch
+  ) {
+    const response = await ipcRenderer.invoke("products:get", {
+      page,
+      pageSize,
+      toSearch,
+    });
+    if (toSearch !== "" && page === null && pageSize === null) {
+      table.currentPage = 1;
+    }
+
+    table.setData(response.data, response.total);
   }
 
   // const btnRegister = document.getElementById("registerProductBtn");
