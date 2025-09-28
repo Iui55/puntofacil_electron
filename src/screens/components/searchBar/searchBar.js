@@ -5,7 +5,7 @@ class SearchBar {
     this.placeholder = options.placeholder || "Buscar";
     this.onSearch = options.onSearch || ((term) => {});
     this.onClear = options.onClear || ((term) => {});
-
+    this.lastSearch = "";
     this._build();
   }
 
@@ -24,16 +24,19 @@ class SearchBar {
       "input",
       this.debounce((event) => {
         const value = (event.target.value || "").trim().toLowerCase();
+        if (value === this.lastSearch) return;
+        this.lastSearch = value;
         this.onSearch(value);
       }, 400)
     );
 
     this.container.querySelector(".clear-btn").addEventListener("click", () => {
+      this.lastSearch = "";
       searchInput.value = "";
       this.onClear();
     });
   }
-  
+
   // Simple debounce (waits until user stops typing for `delay` ms)
   debounce(fn, delay) {
     let timeout;
