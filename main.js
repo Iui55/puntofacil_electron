@@ -3,7 +3,6 @@ const { runMigrations } = require("./src/data/database/migrations.js");
 const productsService = require("./src/services/productsService.js");
 // const userService = require("./src/services/userService.js");
 
-
 const path = require("path");
 
 let loginWindow;
@@ -63,15 +62,9 @@ ipcMain.on("window-control", (event, action) => {
 });
 
 // ---- Products IPC handlers ----
-ipcMain.handle("products:getAll", () => {
-  return productsService.getAllProducts();
+ipcMain.handle("products:get", (event, { page, pageSize, toSearch }) => {
+  return productsService.getProducts(toSearch, page, pageSize);
 });
-
-ipcMain.handle("products:get", (event, data) => {
-  console.log("Searching products");
-  return productsService.getProducts(data.toSearch);
-});
-
 
 app.whenReady().then(() => {
   runMigrations();
