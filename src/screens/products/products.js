@@ -10,7 +10,6 @@
     placeholder: "Buscar productos",
   });
 
-
   // ----- Estado -----
   const SAMPLE_PRODUCTS = [];
   // Generar 60 productos de prueba
@@ -36,7 +35,6 @@
     data: SAMPLE_PRODUCTS,
   });
 
-
   // const btnRegister = document.getElementById("registerProductBtn");
 
   // btnRegister.addEventListener("click", () => {
@@ -56,5 +54,4 @@
 
   //   modal.loadFile(path.join(__dirname, "product-form/product-form.html"));
   // });
-
 })();

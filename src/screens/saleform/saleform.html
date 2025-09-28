@@ -1,7 +1,7 @@
 <div class="body-content">
   <!-- LEFT: formulario de venta -->
   <section class="panel left-panel">
-    <label class="section-title">Sale No.</label>
+    <label class="section-title">Venta No.</label>
     <input id="saleNumber" class="sale-number" type="text" readonly />
 
     <div class="box sale-items-box">
@@ -15,7 +15,7 @@
 
     <div class="bottom-row">
       <div class="campo">
-        <label class="small-label">Cash</label>
+        <label class="small-label">Efectivo</label>
         <input
           id="cashInput"
           class="small-input"
@@ -27,7 +27,7 @@
       </div>
 
       <div class="campo">
-        <label class="small-label">Change</label>
+        <label class="small-label">Cambio</label>
         <input
           id="changeInput"
           class="small-input"
@@ -38,7 +38,7 @@
       </div>
 
       <div class="register-col">
-        <button id="registerSale" class="primary-btn">Register Sale</button>
+        <button id="registerSale" class="primary-btn">Registrar venta</button>
       </div>
     </div>
   </section>
@@ -46,24 +46,13 @@
   <!-- RIGHT: catálogo -->
   <section class="panel right-panel">
     <div class="toolbar">
-      <div class="left-toolbar">
-        <span class="toolbar-text">Showing</span>
-        <select id="pageSize" class="select-small">
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-        <span class="toolbar-text">records</span>
-      </div>
-
       <div class="search-wrapper">
         <div class="search-pill">
           <i class="fa fa-search"></i>
           <input
             id="searchInput"
             class="search-input"
-            placeholder="Search product"
+            placeholder="Buscar producto"
           />
           <button
             id="clearSearch"
@@ -75,6 +64,16 @@
           </button>
         </div>
       </div>
+      <div class="selector-wrapper">
+        <span class="toolbar-text">Mostrando</span>
+        <select id="pageSize" class="select-small">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <span class="toolbar-text">registros</span>
+      </div>
     </div>
 
     <div class="box catalog-box">
@@ -82,9 +81,9 @@
     </div>
 
     <div class="paginator">
-      <button id="prevPage" class="page-btn">Previous</button>
+      <button id="prevPage" class="page-btn">Anterior</button>
       <div id="pagesContainer" class="pages"></div>
-      <button id="nextPage" class="page-btn">Next</button>
+      <button id="nextPage" class="page-btn">Siguiente</button>
     </div>
   </section>
 </div>
