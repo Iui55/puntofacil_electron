@@ -25,7 +25,8 @@ function addProduct(product, userId) {
     return productsRepo.addProduct(product, userId);
   } catch (error) {
     console.error("Error adding product:", error);
-    throw error;
+    return false;
+    // throw error;
   }
 }
 

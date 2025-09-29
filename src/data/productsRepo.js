@@ -34,9 +34,10 @@ export class ProductsRepo {
   addProduct(product, userId) {
     const info = db
       .prepare(
-        "INSERT INTO products (name, description, stock, cost, price) VALUES (?, ?, ?, ?, ?)"
+        "INSERT INTO products (id, name, description, stock, cost, price) VALUES (?, ?, ?, ?, ?, ?)"
       )
       .run(
+        product.id,
         product.name,
         product.description || "",
         product.stock,
@@ -52,7 +53,7 @@ export class ProductsRepo {
       .prepare(
         "INSERT INTO audit_products (product_id, user_id, action) VALUES (?, ?, ?)"
       )
-      .run(info.lastInsertRowid, userId, "create");
+      .run(info.lastInsertRowid, userId, "created");
 
     return info.lastInsertRowid;
   }
