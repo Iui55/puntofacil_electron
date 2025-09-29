@@ -5,43 +5,30 @@ export class SalesRepo {
     return db.prepare("SELECT * FROM sales").all();
   }
 
-  // getSales(toSearch, page, pageSize) {
-  //   const offset = (page - 1) * pageSize;
-  //   const baseQuery = `SELECT * FROM products
-  //                      WHERE CAST(id AS TEXT) LIKE '%' || ? || '%'
-  //                            OR name LIKE '%' || ? || '%' COLLATE NOCASE
-  //                            OR description LIKE '%' || ? || '%' COLLATE NOCASE`;
+  getSales(toSearch, page, pageSize) {
+    return {
+      data: [],
+      total: 0,
+    };
+  }
 
-  //   // Get total records for pagination
-  //   const totalRecords = db
-  //     .prepare(`SELECT COUNT(*) as count FROM (${baseQuery})`)
-  //     .get(toSearch, toSearch, toSearch).count;
-  //   if (page && pageSize) {
-  //     return {
-  //       data: db
-  //         .prepare(`${baseQuery} LIMIT ? OFFSET ?`)
-  //         .all(toSearch, toSearch, toSearch, pageSize, offset),
-  //       total: totalRecords,
-  //     };
-  //   }
-
-  //   return {
-  //     data: db.prepare(baseQuery).all(toSearch, toSearch, toSearch),
-  //     total: totalRecords,
-  //   };
-  // }
+  getLastSale() {
+    const info = db.prepare("SELECT * FROM sales ORDER BY id DESC LIMIT 1").get();
+    return info;
+  }
 
   addSale(sale, userId) {
+    let saleInfo;
     const saleQuery = db.prepare(
       "INSERT INTO sales (user_id, total_price, state) VALUES (?, ?, ?)"
     );
     const detailQuery = db.prepare(
       "INSERT INTO detail_sales (sale_id, product_id, cost, price) VALUES (?, ?, ?, ?)"
     );
-
     const makeSale = db.transaction(() => {
-      const saleInfo = saleQuery.run(sale.total_price, product.state, userId);
-      sale.products.forEach((element) => {
+      console.log(sale);
+      saleInfo = saleQuery.run(userId, sale.total, 1);
+      sale.products.forEach((product) => {
         detailQuery.run(
           saleInfo.lastInsertRowid,
           product.id,
@@ -52,6 +39,6 @@ export class SalesRepo {
     });
 
     makeSale();
-    return true;
+    return saleInfo.lastInsertRowid;
   }
 }
