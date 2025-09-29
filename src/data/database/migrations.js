@@ -9,6 +9,7 @@ function runMigrations() {
       username TEXT NOT NULL UNIQUE,
       password TEXT NOT NULL
     );`,
+
     `CREATE TABLE IF NOT EXISTS products (
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL,
@@ -28,17 +29,26 @@ function runMigrations() {
       FOREIGN KEY (product_id) REFERENCES products (id),
       FOREIGN KEY (user_id) REFERENCES users (id)
     );`,
-    // `CREATE TABLE IF NOT EXISTS sales (
-    //   id INTEGER PRIMARY KEY AUTOINCREMENT,
-    //   sale_number INTEGER NOT NULL UNIQUE,
-    //   user_id INTEGER NOT NULL,
-    //   quantity INTEGER NOT NULL,
-    //   total_price REAL NOT NULL,
-    //   created_at INTEGER DEFAULT (strftime('%s','now')),
-    //   updated_at INTEGER DEFAULT (strftime('%s','now')),
-    //   FOREIGN KEY (user_id) REFERENCES users (id),
-    //   FOREIGN KEY (product_id) REFERENCES products (id)
-    // );`,
+
+    `CREATE TABLE IF NOT EXISTS sales (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      items INTEGER NOT NULL,
+      total_price REAL NOT NULL,
+      state INTEGER DEFAULT 1,
+      created_at INTEGER DEFAULT (strftime('%s','now')),
+      updated_at INTEGER DEFAULT (strftime('%s','now')),
+      FOREIGN KEY (user_id) REFERENCES users (id),
+    );`,
+    `CREATE TABLE IF NOT EXISTS detail_sales(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      sale_id INTEGER NOT NULL, 
+      product_id INTEGER NOT NULL, 
+      cost REAL NOT NULL, 
+      price REAL NOT NULL, 
+      FOREIGN KEY (sale_id) REFERENCES sales(id),
+      FOREIGN KEY (product_id) REFERENCES products(id)
+    );`,
   ];
 
   migrations.forEach((migration) => {
