@@ -34,9 +34,10 @@ export class ProductsRepo {
   addProduct(product, userId) {
     const info = db
       .prepare(
-        "INSERT INTO products (name, description, stock, cost, price) VALUES (?, ?, ?, ?, ?)"
+        "INSERT INTO products (id, name, description, stock, cost, price) VALUES (?, ?, ?, ?, ?, ?)"
       )
       .run(
+        product.id,
         product.name,
         product.description || "",
         product.stock,
