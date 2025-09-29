@@ -9,6 +9,8 @@ class TableData {
       this.headers.push({ label: "Acciones", key: "__actions" });
 
     this.onSelect = options.onSelect || ((item) => {});
+    this.renderRow = options.renderRow || this.buildRow;
+    
     this.loadData = options.loadData || (() => {}); // async function (page, pageSize) => { data: [], totalRecords: number }
     this.data = options.data || []; // Array of data objects
     this.totalRecords = options.totalRecords || 0;
@@ -102,35 +104,40 @@ class TableData {
     }
 
     this.data.forEach((rowData, rowIndex) => {
-      const row = document.createElement("div");
-      row.className = "table-row";
-      row.addEventListener("click", () => {
-        this.onSelect(rowData);
-      });
-
-      this.headers.forEach((h) => {
-        const col = document.createElement("div");
-        col.className = "col";
-        if (h.key === "__actions") {
-          // Render action buttons
-          this.actions.forEach((action) => {
-            const btn = document.createElement("button");
-            btn.className = `action-btn ${action.class || ""}`;
-            btn.textContent = action.label || "Action";
-            btn.addEventListener("click", (e) => {
-              e.stopPropagation(); // to avoid triggering row click
-              action.onClick(rowData, rowIndex);
-            });
-            col.appendChild(btn);
-          });
-        } else {
-          col.textContent = rowData[h.key] || "";
-        }
-        row.appendChild(col);
-      });
+      const row = this.renderRow(rowData, rowIndex);
 
       bodyEl.appendChild(row);
     });
+  }
+
+  buildRow(data, index) {
+    const row = document.createElement("div");
+    row.className = "table-row";
+    row.addEventListener("click", () => {
+      this.onSelect(data);
+    });
+
+    this.headers.forEach((h) => {
+      const col = document.createElement("div");
+      col.className = "col";
+      if (h.key === "__actions") {
+        // Render action buttons
+        this.actions.forEach((action) => {
+          const btn = document.createElement("button");
+          btn.className = `action-btn ${action.class || ""}`;
+          btn.textContent = action.label || "Action";
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation(); // to avoid triggering row click
+            action.onClick(data, index);
+          });
+          col.appendChild(btn);
+        });
+      } else {
+        col.textContent = data[h.key] || "";
+      }
+      row.appendChild(col);
+    });
+    return row;
   }
 }
 
