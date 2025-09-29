@@ -54,27 +54,6 @@ const createHomeWindow = () => {
 };
 
 /* ===========================
-   PRODUCTS
-=========================== */
-// const createProductsWindow = () => {
-//   productsWindow = new BrowserWindow({
-//     width: 1024,
-//     height: 650,
-//     resizable: false,
-//     frame: false,
-//     transparent: true,
-//     roundedCorners: true,
-//     icon: path.join(__dirname, "assets/images/puntofacil.jpg"),
-//     webPreferences: {
-//       nodeIntegration: true,
-//       contextIsolation: false,
-//     },
-//   });
-
-//   productsWindow.loadFile("src/screens/products/products.html");
-// };
-
-/* ===========================
    PRODUCT ADD
 =========================== */
 const createProductAddWindow = () => {
@@ -135,8 +114,6 @@ ipcMain.on("open-product-add", () => {
 ipcMain.on("back-to-products", () => {
   if (productAddWindow !== null) productAddWindow.close();
 });
-
-app.whenReady().then(createLoginWindow);
 
 // ===== Products IPC handlers =====
 ipcMain.handle("products:get", (event, { page, pageSize, toSearch }) => {
