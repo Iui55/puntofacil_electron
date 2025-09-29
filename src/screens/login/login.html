@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>PuntoFácil - Login</title>
-  <link rel="stylesheet" href="login.css">
-</head>
-<body>
-  <div class="window">
-    <div class="login-container">
-      <div class="left-panel">
-        <h2>Bienvenido a</h2>
-        <h1><span class="highlight">PuntoFácil</span></h1>
-        <img src="../../assets/images/puntofacil.jpg" alt="Caja Registradora" class="logo">
-      </div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>PuntoFácil - Login</title>
+    <link rel="stylesheet" href="login.css" />
+    <!-- Fuente -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="window">
+      <div class="login-container">
+        <div class="left-panel">
+          <h2>Bienvenido a</h2>
+          <h1><span class="highlight">PuntoFácil</span></h1>
+          <img
+            src="../../assets/images/puntofacil.png"
+            alt="Caja Registradora"
+            class="logo"
+          />
+        </div>
 
-      <div class="right-panel">
-        <h2>Inicie sesión<br>con su cuenta</h2>
-        <form id="loginForm">
-          <label>Usuario</label>
-          <input type="text" placeholder="Ingrese su usuario">
-          
-          <label>Contraseña</label>
-          <input type="password" placeholder="Ingrese su contraseña">
-          
-          <button type="submit">Ingresar</button>
-          <a href="#" class="forgot">Olvidé mi contraseña</a>
-        </form>
+        <div class="right-panel">
+          <h2>Inicie sesión<br />con su cuenta</h2>
+          <form id="loginForm">
+            <label>Usuario</label>
+            <input type="text" placeholder="Ingrese su usuario" />
+
+            <label>Contraseña</label>
+            <input type="password" placeholder="Ingrese su contraseña" />
+
+            <button type="submit">Ingresar</button>
+            <a href="#" class="forgot">Olvidé mi contraseña</a>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  <script src="login.js"></script>
-
-</body>
+    <script src="login.js"></script>
+  </body>
 </html>
