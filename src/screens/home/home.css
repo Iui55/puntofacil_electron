@@ -140,6 +140,7 @@ body {
 
 .search-pill {
   display: flex;
+  flex: 1;
   align-items: center;
   background: #fff;
   border: 1px solid #ddd;
