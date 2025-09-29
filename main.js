@@ -130,6 +130,10 @@ ipcMain.handle("sales:getNextSaleNumber", (evet) => {
   return salesService.getLastSale().id + 1;
 });
 
+ipcMain.handle("sales:get", (evet, { page, pageSize, toSearch }) => {
+  return salesService.getSales(toSearch, page, pageSize);
+});
+
 ipcMain.handle("sales:add", (evet, data) => {
   return salesService.addSale(data, 1);
 });
