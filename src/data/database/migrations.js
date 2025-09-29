@@ -33,7 +33,6 @@ function runMigrations() {
     `CREATE TABLE IF NOT EXISTS sales (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
-      items INTEGER NOT NULL,
       total_price REAL NOT NULL,
       state INTEGER DEFAULT 1,
       created_at INTEGER DEFAULT (strftime('%s','now')),
