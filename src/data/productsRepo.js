@@ -52,7 +52,7 @@ export class ProductsRepo {
       .prepare(
         "INSERT INTO audit_products (product_id, user_id, action) VALUES (?, ?, ?)"
       )
-      .run(info.lastInsertRowid, userId, "create");
+      .run(info.lastInsertRowid, userId, "created");
 
     return info.lastInsertRowid;
   }

@@ -120,6 +120,11 @@ ipcMain.handle("products:get", (event, { page, pageSize, toSearch }) => {
   return productsService.getProducts(toSearch, page, pageSize);
 });
 
+ipcMain.handle("products:add", (evemt, { data }) => {
+  console.log(data);
+  return productsService.addProduct(data, 1);
+});
+
 app.whenReady().then(() => {
   runMigrations();
   createLoginWindow();
