@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
 const { runMigrations } = require("./src/data/database/migrations.js");
 const productsService = require("./src/services/productsService.js");
+const salesService = require("./src/services/salesService.js");
 // const userService = require("./src/services/userService.js");
 
 const path = require("path");
@@ -122,6 +123,15 @@ ipcMain.handle("products:get", (event, { page, pageSize, toSearch }) => {
 
 ipcMain.handle("products:add", (evet, { data }) => {
   return productsService.addProduct(data, 1);
+});
+
+// ===== Sales IPC handlers =====
+ipcMain.handle("sales:getNextSaleNumber", (evet) => {
+  return salesService.getLastSale().id + 1;
+});
+
+ipcMain.handle("sales:add", (evet, data) => {
+  return salesService.addSale(data, 1);
 });
 
 app.whenReady().then(() => {
