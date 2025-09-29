@@ -6,9 +6,10 @@ export class SalesRepo {
   }
 
   getSales(toSearch, page, pageSize) {
+    const offset = (page - 1) * pageSize;
     return {
-      data: [],
-      total: 0,
+      data: db.prepare("SELECT * FROM sales LIMIT ? OFFSET ?").all(pageSize, offset),
+      total: db.prepare("SELECT COUNT(*) as count FROM sales").get().count
     };
   }
 
@@ -26,7 +27,6 @@ export class SalesRepo {
       "INSERT INTO detail_sales (sale_id, product_id, cost, price) VALUES (?, ?, ?, ?)"
     );
     const makeSale = db.transaction(() => {
-      console.log(sale);
       saleInfo = saleQuery.run(userId, sale.total, 1);
       sale.products.forEach((product) => {
         detailQuery.run(
