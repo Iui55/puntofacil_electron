@@ -8,9 +8,12 @@ class TableData {
     if (this.actions.length > 0)
       this.headers.push({ label: "Acciones", key: "__actions" });
 
-    //
     this.onSelect = options.onSelect || ((item) => {});
+    this.loadData = options.loadData || (() => {}); // async function (page, pageSize) => { data: [], totalRecords: number }
     this.data = options.data || []; // Array of data objects
+    this.totalRecords = options.totalRecords || 0;
+    this.pageSize = options.pageSize || 10;
+    this.currentPage = 1;
 
     this._build();
   }
@@ -32,12 +35,64 @@ class TableData {
       col.textContent = h.label;
       headerEl.appendChild(col);
     });
-    this.setData(this.data || []);
+    // Render empty body
+    this.container.querySelector(".table-body").innerHTML = `
+      <div style="color:#6a7a9a">Cargando datos...</div>
+    `;
+    if (this.data.length > 0) {
+      this.setData(this.data, this.totalRecords);
+    }
+    // Pagination elements
+    this.pagesContainer = this.container.querySelector("#pagesContainer");
+    this.prevPageBtn = this.container.querySelector("#prevPage");
+    this.nextPageBtn = this.container.querySelector("#nextPage");
+
+    this.prevPageBtn.addEventListener("click", async () => {
+      if (this.currentPage <= 1) return;
+      this.currentPage--;
+      await this.loadData(this.currentPage, this.pageSize);
+    });
+
+    this.nextPageBtn.addEventListener("click", async () => {
+      this.currentPage++;
+      await this.loadData(this.currentPage, this.pageSize);
+    });
   }
 
-  setData(data) {
+  _buildPagination() {
+    const totalPages = Math.ceil(this.totalRecords / this.pageSize) || 1;
+    this.pagesContainer.innerHTML = "";
+
+    // Disable/enable buttons
+    this.prevPageBtn.disabled = this.currentPage <= 1;
+    this.prevPageBtn.classList.toggle("disabled", this.prevPageBtn.disabled);
+
+    this.nextPageBtn.disabled = this.currentPage >= totalPages;
+    this.nextPageBtn.classList.toggle("disabled", this.nextPageBtn.disabled);
+
+    // Create page buttons
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.className = "page-number";
+      if (i === this.currentPage) btn.classList.add("active");
+
+      btn.textContent = String(i);
+      btn.addEventListener("click", async () => {
+        if (i === this.currentPage) return;
+
+        this.currentPage = i;
+        await this.loadData(this.currentPage, this.pageSize);
+        // this._buildPagination();
+      });
+
+      this.pagesContainer.appendChild(btn);
+    }
+  }
+
+  setData(data, totalRecords = 0) {
     const bodyEl = this.container.querySelector(".table-body");
     this.data = data || [];
+    this.totalRecords = totalRecords;
 
     bodyEl.innerHTML = "";
     if (this.data.length === 0) {
@@ -75,6 +130,7 @@ class TableData {
 
       bodyEl.appendChild(row);
     });
+    this._buildPagination();
   }
 }
 
