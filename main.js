@@ -80,7 +80,7 @@ const createHomeWindow = () => {
 const createProductAddWindow = () => {
   productAddWindow = new BrowserWindow({
     width: 650,
-    height: 550,
+    height: 360,
     parent: homeWindow,
     modal: true,
     resizable: false,
