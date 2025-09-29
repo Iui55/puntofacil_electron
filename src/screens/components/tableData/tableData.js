@@ -121,11 +121,17 @@ class TableData {
       const col = document.createElement("div");
       col.className = "col";
       if (h.key === "__actions") {
+        col.className = "col actions";
         // Render action buttons
         this.actions.forEach((action) => {
           const btn = document.createElement("button");
           btn.className = `action-btn ${action.class || ""}`;
-          btn.textContent = action.label || "Action";
+          const icon = document.createElement("i");
+          icon.className = action.icon
+          
+          btn.appendChild(icon);
+
+          // btn.textContent = action.label || "Action";
           btn.addEventListener("click", (e) => {
             e.stopPropagation(); // to avoid triggering row click
             action.onClick(data, index);
