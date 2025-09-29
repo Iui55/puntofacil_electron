@@ -1,74 +1,13 @@
 /* ====== BODY ====== */
-.body-content {
-  flex: 1;
-  /* padding: 20px; */
-}
-
 .products-section {
   display: flex;
-  flex: 1;
   flex-direction: column;
   gap: 10px;
 }
 
-/* ====== TOOLBAR ====== */
-.toolbar {
+#products-table {
   display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.primary-btn {
-  background-color: #1e3a8a;
-  color: #f8fafc;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  margin-left: 360px;
-}
-
-.records-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-/* ====== PAGINACIÓN ====== */
-.paginator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  padding-top: 10px;
-}
-
-.page-btn {
-  background: #1e3a8a;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.pages {
-  display: flex;
-  gap: 5px;
-}
-
-.page-number {
-  background: #fff;
-  border: 1px solid #1e3a8a;
-  color: #1e3a8a;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.page-number.active {
-  background: #1e3a8a;
-  color: #fff;
+  flex-direction: column;
+  height: 100%;
+  /* gap: 10px; */
 }
