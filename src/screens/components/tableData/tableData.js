@@ -39,9 +39,7 @@ class TableData {
     this.container.querySelector(".table-body").innerHTML = `
       <div style="color:#6a7a9a">Cargando datos...</div>
     `;
-    if (this.data.length > 0) {
-      this.setData(this.data, this.totalRecords);
-    }
+
     // Pagination elements
     this.pagesContainer = this.container.querySelector("#pagesContainer");
     this.prevPageBtn = this.container.querySelector("#prevPage");
@@ -57,6 +55,8 @@ class TableData {
       this.currentPage++;
       await this.loadData(this.currentPage, this.pageSize);
     });
+
+    this.loadData(1, this.pageSize);
   }
 
   _buildPagination() {
@@ -95,6 +95,7 @@ class TableData {
     this.totalRecords = totalRecords;
 
     bodyEl.innerHTML = "";
+    this._buildPagination();
     if (this.data.length === 0) {
       bodyEl.innerHTML = `<div style="color:#6a7a9a">No hay datos para mostrar.</div>`;
       return;
@@ -130,7 +131,6 @@ class TableData {
 
       bodyEl.appendChild(row);
     });
-    this._buildPagination();
   }
 }
 

@@ -271,6 +271,11 @@ body {
   cursor: pointer;
 }
 
+.page-btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .pages {
   display: flex;
   gap: 5px;
