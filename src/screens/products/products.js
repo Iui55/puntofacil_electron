@@ -54,7 +54,7 @@
     table.setData(response.data, response.total);
   }
 
-  // const btnRegister = document.getElementById("registerProductBtn");
+  const btnRegister = document.getElementById("registerProductBtn");
 
   btnRegister.addEventListener("click", () => {
     // Avisamos al proceso principal que queremos abrir product-add
