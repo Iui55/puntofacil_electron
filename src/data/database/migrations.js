@@ -37,7 +37,7 @@ function runMigrations() {
       state INTEGER DEFAULT 1,
       created_at INTEGER DEFAULT (strftime('%s','now')),
       updated_at INTEGER DEFAULT (strftime('%s','now')),
-      FOREIGN KEY (user_id) REFERENCES users (id),
+      FOREIGN KEY (user_id) REFERENCES users (id)
     );`,
     `CREATE TABLE IF NOT EXISTS detail_sales(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
