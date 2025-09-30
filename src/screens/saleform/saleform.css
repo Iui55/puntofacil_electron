@@ -1,8 +1,7 @@
 /* BODY layout: two panels side by side */
-.body-content {
+.saleform-section {
   display: flex;
   gap: 28px;
-  padding: 20px;
   align-items: flex-start;
   justify-content: center;
   flex: 1;
@@ -159,52 +158,13 @@
   filter: brightness(0.95);
 }
 
-/* Search pill */
-.search-wrapper {
-  display: flex;
-  align-items: center;
-}
-.search-pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 24px;
-  border: 2px solid rgba(29, 67, 154, 0.15);
-  background: linear-gradient(180deg, #fff, #f8fbff);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-.search-pill i {
-  color: #2b5aa6;
-}
-.search-input {
-  border: none;
-  outline: none;
-  width: 125px;
-  padding: 8px;
-  background: transparent;
-}
-.clear-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 999px;
-}
-
 /* catalog box & list */
 .catalog-box {
-  height: 420px;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
-.catalog-list {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 8px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  flex: 1;
+  /* overflow: hidden; */
+  margin-bottom: 10px;
 }
 
 /* catalog row */

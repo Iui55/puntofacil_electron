@@ -164,8 +164,18 @@ body {
 .toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.primary-btn {
+  background-color: #1e3a8a;
+  color: #f8fafc;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .selector-wrapper {

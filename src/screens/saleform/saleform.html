@@ -1,4 +1,4 @@
-<div class="body-content">
+<section class="saleform-section">
   <!-- LEFT: formulario de venta -->
   <section class="panel left-panel">
     <label class="section-title">Venta No.</label>
@@ -46,24 +46,8 @@
   <!-- RIGHT: catálogo -->
   <section class="panel right-panel">
     <div class="toolbar">
-      <div class="search-wrapper">
-        <div class="search-pill">
-          <i class="fa fa-search"></i>
-          <input
-            id="searchInput"
-            class="search-input"
-            placeholder="Buscar producto"
-          />
-          <button
-            id="clearSearch"
-            class="clear-btn"
-            title="Clear"
-            aria-label="Clear"
-          >
-            <i class="fa fa-times"></i>
-          </button>
-        </div>
-      </div>
+      <div class="search-products"></div>
+
       <div class="selector-wrapper">
         <span class="toolbar-text">Mostrando</span>
         <select id="pageSize" class="select-small">
@@ -76,15 +60,8 @@
       </div>
     </div>
 
-    <div class="box catalog-box">
-      <div id="catalogList" class="catalog-list"></div>
-    </div>
-
-    <div class="paginator">
-      <button id="prevPage" class="page-btn">Anterior</button>
-      <div id="pagesContainer" class="pages"></div>
-      <button id="nextPage" class="page-btn">Siguiente</button>
-    </div>
-  </section>
-</div>
+    <!-- Catalog table -->
+    <div class="box catalog-box" id="productsTable"></div>
+  </section> 
+</section>
 <script src="saleform.js"></script>
