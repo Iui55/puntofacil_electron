@@ -1,36 +1,19 @@
 /* ====== BODY ====== */
-.body-content {
-  flex: 1;
-  /* padding: 20px; */
-}
 
 .sales-section {
   display: flex;
-  flex: 1;
   flex-direction: column;
   gap: 10px;
 }
 
 /* ====== TOOLBAR ====== */
-.toolbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.search-sales {
+  flex: 1;
 }
 
-.primary-btn {
-  background-color: #1e3a8a;
-  color: #f8fafc;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.records-wrapper {
+#sales-table {
   display: flex;
-  align-items: center;
-  gap: 5px;
+  flex-direction: column;
+  height: 100%;
+  /* gap: 10px; */
 }
