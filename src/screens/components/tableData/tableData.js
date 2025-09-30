@@ -9,6 +9,7 @@ class TableData {
       this.headers.push({ label: "Acciones", key: "__actions" });
 
     this.onSelect = options.onSelect || ((item) => {});
+    this.mapRow = options.mapRow;
     this.renderRow = options.renderRow || this.buildRow;
     
     this.loadData = options.loadData || (() => {}); // async function (page, pageSize) => { data: [], totalRecords: number }
@@ -111,6 +112,9 @@ class TableData {
   }
 
   buildRow(data, index) {
+    if (this.mapRow !== undefined && this.mapRow !== null)
+      data = this.mapRow({...data})
+    
     const row = document.createElement("div");
     row.className = "table-row";
     row.addEventListener("click", () => {
@@ -125,13 +129,13 @@ class TableData {
         // Render action buttons
         this.actions.forEach((action) => {
           const btn = document.createElement("button");
+          btn.title = action.label || "";
           btn.className = `action-btn ${action.class || ""}`;
+          
           const icon = document.createElement("i");
-          icon.className = action.icon
+          icon.className = action.icon || "";
           
           btn.appendChild(icon);
-
-          // btn.textContent = action.label || "Action";
           btn.addEventListener("click", (e) => {
             e.stopPropagation(); // to avoid triggering row click
             action.onClick(data, index);
