@@ -2,6 +2,15 @@ const { SalesRepo } = require("../data/salesRepo");
 
 salesRepo = new SalesRepo();
 
+function getAllSales() {
+  try {
+    return salesRepo.getAllSales();
+  } catch (error) {
+    console.error("Error fetching sales:", error);
+    throw error;
+  }
+}
+
 function getSales(toSearch, page, pageSize) {
   try {
     return salesRepo.getSales(toSearch, page, pageSize);
@@ -30,6 +39,7 @@ function addSale(sale, userId) {
 }
 
 module.exports = {
+    getAllSales,
     getSales,
     getLastSale,
     addSale
