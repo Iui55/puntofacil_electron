@@ -17,6 +17,20 @@
       { label: "Precio venta", key: "price" },
     ],
     data: [],
+    actions: [
+      {
+        label: "Editar",
+        class: "edit",
+        icon: 'fa fa-pen',
+        onClick: this.editProduct,
+      },
+      {
+        label: "Eliminar",
+        class: "delete",
+        icon: "fa fa-trash",
+        onClick: this.deleteProduct,
+      },
+    ],
     loadData: (page, pageSize) => {
       loadProducts(productsTable, page, pageSize);
     },
@@ -48,6 +62,10 @@
 
     table.currentPage = page;
     table.setData(response.data, response.total);
+  }
+
+  function editProduct(product) {
+
   }
 
   const btnRegister = document.getElementById("registerProductBtn");
