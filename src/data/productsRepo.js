@@ -20,8 +20,9 @@ export class ProductsRepo {
 
     if (page && pageSize) {
       return {
-        data: db.prepare(`${baseQuery} LIMIT ? OFFSET ?`)
-                .all(toSearch, toSearch, toSearch, pageSize, offset),
+        data: db
+          .prepare(`${baseQuery} LIMIT ? OFFSET ?`)
+          .all(toSearch, toSearch, toSearch, pageSize, offset),
         total: totalRecords,
       };
     }
@@ -33,29 +34,71 @@ export class ProductsRepo {
   }
 
   addProduct(product, userId) {
-    const info = db
-      .prepare(
-        "INSERT INTO products (id, name, description, stock, cost, price) VALUES (?, ?, ?, ?, ?, ?)"
-      )
-      .run(
-        product.id,
-        product.name,
-        product.description || "",
-        product.stock,
-        product.cost,
-        product.price
-      );
+    let productInfo;
+    const makeProduct = db.transaction(() => {
+      productInfo = db
+        .prepare(
+          "INSERT INTO products (id, name, description, stock, cost, price) VALUES (?, ?, ?, ?, ?, ?)"
+        )
+        .run(
+          product.id,
+          product.name,
+          product.description || "",
+          product.stock,
+          product.cost,
+          product.price
+        );
 
-    if (info.changes === 0) {
-      throw new Error("Failed to add product");
-    }
+      this._addAudit(productId, userId, "created");
+    });
 
-    const auditInfo = db
+    makeProduct();
+    return info.lastInsertRowid;
+  }
+  
+  updateProduct(product, userId) {
+    let productInfo;
+    const makeProduct = db.transaction(() => {
+      productInfo = db
+        .prepare(
+          `UPDATE products SET name = ?, description = ?, stock = ?, cost = ?, price = ?
+           WHERE id = ?`
+        )
+        .run(
+          product.name,
+          product.description || "",
+          product.stock,
+          product.cost,
+          product.price,
+          product.id
+        );
+
+      this._addAudit(productId, userId, "updated");
+    });
+
+    makeProduct();
+    return true;
+  }
+
+  deleteProduct(productId, userId) {
+    let productInfo;
+    const makeProduct = db.transaction(() => {
+      productInfo = db
+        .prepare("UPDATE products SET enabled = False WHERE id = ?")
+        .run(productId);
+
+      this._addAudit(productId, userId, "deleted");
+    });
+
+    makeProduct();
+    return true;
+  }
+
+  _addAudit(productId, userId, action) {
+    return db
       .prepare(
         "INSERT INTO audit_products (product_id, user_id, action) VALUES (?, ?, ?)"
       )
-      .run(info.lastInsertRowid, userId, "created");
-
-    return info.lastInsertRowid;
+      .run(productId, userId, action);
   }
 }
