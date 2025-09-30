@@ -17,6 +17,7 @@ function runMigrations() {
       stock INTEGER NOT NULL,
       cost REAL NOT NULL,
       price REAL NOT NULL,
+      enabled BOOLEAN DEFAULT TRUE,
       created_at INTEGER DEFAULT (strftime('%s','now')),
       updated_at INTEGER DEFAULT (strftime('%s','now'))
     );`,

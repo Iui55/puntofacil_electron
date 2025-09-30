@@ -8,19 +8,20 @@ export class ProductsRepo {
   getProducts(toSearch, page, pageSize) {
     const offset = (page - 1) * pageSize;
     const baseQuery = `SELECT * FROM products
-                       WHERE CAST(id AS TEXT) LIKE '%' || ? || '%'
+                       WHERE enabled = 1 
+                             AND (CAST(id AS TEXT) LIKE '%' || ? || '%'
                              OR name LIKE '%' || ? || '%' COLLATE NOCASE
-                             OR description LIKE '%' || ? || '%' COLLATE NOCASE`;
+                             OR description LIKE '%' || ? || '%' COLLATE NOCASE)`;
 
     // Get total records for pagination
     const totalRecords = db
       .prepare(`SELECT COUNT(*) as count FROM (${baseQuery})`)
       .get(toSearch, toSearch, toSearch).count;
+
     if (page && pageSize) {
       return {
-        data: db
-          .prepare(`${baseQuery} LIMIT ? OFFSET ?`)
-          .all(toSearch, toSearch, toSearch, pageSize, offset),
+        data: db.prepare(`${baseQuery} LIMIT ? OFFSET ?`)
+                .all(toSearch, toSearch, toSearch, pageSize, offset),
         total: totalRecords,
       };
     }
