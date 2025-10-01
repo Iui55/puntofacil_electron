@@ -1,28 +1,26 @@
-<div class="body-content">
-  <section class="sales-section">
-    <!-- Toolbar superior -->
-    <div class="toolbar">
-      <!-- Barra de búsqueda -->
-      <div class="search-sales" id="searchBarSales"></div>
+<section class="sales-section">
+  <!-- Toolbar superior -->
+  <div class="toolbar">
+    <!-- Barra de búsqueda -->
+    <div class="search-sales" id="searchBarSales"></div>
 
-      <!-- Botón registrar venta -->
-      <!-- <button id="registerSalesBtn" class="primary-btn">Registrar venta</button> -->
+    <!-- Botón registrar venta -->
+    <!-- <button id="registerSalesBtn" class="primary-btn">Registrar venta</button> -->
 
-      <!-- Selector de cantidad -->
-      <div class="selector-wrapper">
-        <span class="toolbar-text">Mostrando</span>
-        <select id="pageSize" class="select-small">
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-        <span class="toolbar-text">registros</span>
-      </div>
+    <!-- Selector de cantidad -->
+    <div class="selector-wrapper">
+      <span class="toolbar-text">Mostrando</span>
+      <select id="pageSize" class="select-small">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <span class="toolbar-text">registros</span>
     </div>
+  </div>
 
-    <!-- Tabla de productos -->
-    <div id="salesTable"></div>
-  </section>
-</div>
+  <!-- Tabla de productos -->
+  <div id="salesTable" class="table"></div>
+</section>
 <script src="sales.js"></script>
