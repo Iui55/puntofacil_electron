@@ -342,25 +342,25 @@ body {
 }
 
 /* Buttons */
-.modal.actions {
+.modal-actions {
   margin-top: 15px;
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-.modal.actions button {
+.modal-actions button {
   padding: 8px 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
 }
 
-.modal.actions button:first-child {
+.modal-actions button:first-child {
   background: #1e3a8a;
   color: white;
 }
 
-.modal.actions button:last-child {
+.modal-actions button:last-child {
   background: #e5e7eb;
 }
