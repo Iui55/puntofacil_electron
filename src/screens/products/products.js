@@ -1,8 +1,10 @@
 (() => {
   const { ipcRenderer } = require("electron");
-  const path = require("path");
 
-  // Componentes
+  // ---- UI Components ----
+  const btnRegister = document.getElementById("registerProductBtn");
+
+  // ---- Componentes
   const SearchBar = require("../components/searchBar/searchBar.js");
   const TableData = require("../components/tableData/tableData.js");
   const ModalMessage = require("../components/modalMessage/modalMessage.js");
@@ -29,7 +31,7 @@
         label: "Eliminar",
         class: "delete",
         icon: "fa fa-trash",
-        onClick: this.deleteProduct,
+        onClick: deleteProduct,
       },
     ],
     loadData: (page, pageSize) => {
@@ -49,10 +51,17 @@
   });
 
   const modal = new ModalMessage({
-      container: document.getElementById("someModal"),
-    });
-  
-  // Load products from main process
+    container: document.getElementById("someModal"),
+  });
+
+  // ---- Listeners Events ----
+  btnRegister.addEventListener("click", () => {
+    // Avisamos al proceso principal que queremos abrir product-add
+    ipcRenderer.send("open-product-add");
+    document.getElementById("overlay").style.display = "block";
+  });
+
+  // ---- Logic ----
   async function loadProducts(
     table,
     page = 1,
@@ -73,17 +82,7 @@
     modal.show({
       title: `Editar ${product.name}`,
       message: "¿Seguro que desea continuar?",
-      onClickOption: (isAgree) => {
-        
-      }}
-    );
+      onClickOption: (isAgree) => {},
+    });
   }
-
-  const btnRegister = document.getElementById("registerProductBtn");
-
-  btnRegister.addEventListener("click", () => {
-    // Avisamos al proceso principal que queremos abrir product-add
-    ipcRenderer.send("open-product-add");
-    document.getElementById("overlay").style.display = "block";
-  });
 })();
