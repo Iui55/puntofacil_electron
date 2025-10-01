@@ -5,6 +5,7 @@
   // Componentes
   const SearchBar = require("../components/searchBar/searchBar.js");
   const TableData = require("../components/tableData/tableData.js");
+  const ModalMessage = require("../components/modalMessage/modalMessage.js");
 
   // ----- Components state -----
   const productsTable = new TableData({
@@ -21,8 +22,8 @@
       {
         label: "Editar",
         class: "edit",
-        icon: 'fa fa-pen',
-        onClick: this.editProduct,
+        icon: "fa fa-pen",
+        onClick: editProduct,
       },
       {
         label: "Eliminar",
@@ -47,6 +48,10 @@
     },
   });
 
+  const modal = new ModalMessage({
+      container: document.getElementById("someModal"),
+    });
+  
   // Load products from main process
   async function loadProducts(
     table,
@@ -65,7 +70,13 @@
   }
 
   function editProduct(product) {
-
+    modal.show({
+      title: `Editar ${product.name}`,
+      message: "¿Seguro que desea continuar?",
+      onClickOption: (isAgree) => {
+        
+      }}
+    );
   }
 
   const btnRegister = document.getElementById("registerProductBtn");
