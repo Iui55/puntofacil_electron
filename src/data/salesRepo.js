@@ -8,13 +8,17 @@ export class SalesRepo {
   getSales(toSearch, page, pageSize) {
     const offset = (page - 1) * pageSize;
     return {
-      data: db.prepare("SELECT * FROM sales LIMIT ? OFFSET ?").all(pageSize, offset),
-      total: db.prepare("SELECT COUNT(*) as count FROM sales").get().count
+      data: db
+        .prepare("SELECT * FROM sales LIMIT ? OFFSET ?")
+        .all(pageSize, offset),
+      total: db.prepare("SELECT COUNT(*) as count FROM sales").get().count,
     };
   }
 
   getLastSale() {
-    const info = db.prepare("SELECT * FROM sales ORDER BY id DESC LIMIT 1").get();
+    const info = db
+      .prepare("SELECT * FROM sales ORDER BY id DESC LIMIT 1")
+      .get();
     return info;
   }
 
@@ -24,7 +28,7 @@ export class SalesRepo {
       "INSERT INTO sales (user_id, total_price, state) VALUES (?, ?, ?)"
     );
     const detailQuery = db.prepare(
-      "INSERT INTO detail_sales (sale_id, product_id, cost, price) VALUES (?, ?, ?, ?)"
+      "INSERT INTO detail_sales (sale_id, product_id, cost, price, no_product) VALUES (?, ?, ?, ?, ?)"
     );
     const makeSale = db.transaction(() => {
       saleInfo = saleQuery.run(userId, sale.total, 1);
@@ -33,7 +37,8 @@ export class SalesRepo {
           saleInfo.lastInsertRowid,
           product.id,
           product.cost,
-          product.price
+          product.price,
+          product.no_product
         );
       });
     });

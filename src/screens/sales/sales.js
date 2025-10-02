@@ -47,7 +47,4 @@
     table.currentPage = page;
     table.setData(response.data, response.total);
   }
-  const btnRegister = document.getElementById("registerSalesBtn");
-
-  btnRegister.addEventListener("click", () => {});
 })();
