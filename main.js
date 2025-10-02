@@ -57,7 +57,7 @@ const createHomeWindow = () => {
 /* ===========================
    PRODUCT ADD
 =========================== */
-const createProductAddWindow = () => {
+const createProductAddWindow = (product) => {
   productAddWindow = new BrowserWindow({
     width: 650,
     height: 360,
@@ -67,15 +67,19 @@ const createProductAddWindow = () => {
     frame: false,
     transparent: true,
     roundedCorners: true,
+    show: false,
     icon: path.join(__dirname, "assets/images/puntofacil.jpg"),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      additionalArguments: [JSON.stringify(product)],
     },
   });
 
   productAddWindow.loadFile("src/screens/product-add/product-add.html");
-  productAddWindow.on("ready-to-show", productAddWindow.show);
+  productAddWindow.on("open-product-ready", () => {
+    productAddWindow.show();
+  });
 
   productAddWindow.on("closed", () => {
     productAddWindow = null;
@@ -107,8 +111,12 @@ ipcMain.on("window-control", (event, action) => {
 /* ===== Navegación Products <-> Product-Add ===== */
 
 // Abrir Product-Add y cerrar Products
-ipcMain.on("open-product-add", () => {
-  createProductAddWindow();
+ipcMain.on("open-product-add", (event, product) => {
+  createProductAddWindow(product);
+});
+
+ipcMain.on("open-product-ready", () => {
+  if (productAddWindow !== null) productAddWindow.show();
 });
 
 // Regresar de Product-Add a Products
@@ -123,6 +131,10 @@ ipcMain.handle("products:get", (event, { page, pageSize, toSearch }) => {
 
 ipcMain.handle("products:add", (evet, { data }) => {
   return productsService.addProduct(data, 1);
+});
+
+ipcMain.handle("products:update", (evet, { data }) => {
+  return productsService.updateProduct(data, 1);
 });
 
 ipcMain.handle("products:delete", (evet, productId) => {
