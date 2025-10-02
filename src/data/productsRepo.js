@@ -38,22 +38,23 @@ export class ProductsRepo {
     const makeProduct = db.transaction(() => {
       productInfo = db
         .prepare(
-          "INSERT INTO products (id, name, description, stock, cost, price) VALUES (?, ?, ?, ?, ?, ?)"
+          "INSERT INTO products (id, name, description, min_stock, stock, cost, price) VALUES (?, ?, ?, ?, ?, ?, ?)"
         )
         .run(
           product.id,
           product.name,
           product.description || "",
+          product.min_stock,
           product.stock,
           product.cost,
           product.price
         );
 
-      this._addAudit(productId, userId, "created");
+      this._addAudit(product.id, userId, "created");
     });
 
     makeProduct();
-    return info.lastInsertRowid;
+    return productInfo.lastInsertRowid;
   }
   
   updateProduct(product, userId) {
@@ -61,19 +62,20 @@ export class ProductsRepo {
     const makeProduct = db.transaction(() => {
       productInfo = db
         .prepare(
-          `UPDATE products SET name = ?, description = ?, stock = ?, cost = ?, price = ?
+          `UPDATE products SET name = ?, description = ?, min_stock = ?, stock = ?, cost = ?, price = ?
            WHERE id = ?`
         )
         .run(
           product.name,
           product.description || "",
+          product.min_stock,
           product.stock,
           product.cost,
           product.price,
           product.id
         );
 
-      this._addAudit(productId, userId, "updated");
+      this._addAudit(product.id, userId, "updated");
     });
 
     makeProduct();

@@ -14,6 +14,7 @@ function runMigrations() {
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL,
       description TEXT DEFAULT '',
+      min_stock INTEGER NOT NULL,
       stock INTEGER NOT NULL,
       cost REAL NOT NULL,
       price REAL NOT NULL,
