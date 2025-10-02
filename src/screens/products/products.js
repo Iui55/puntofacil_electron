@@ -54,6 +54,11 @@
     container: document.getElementById("someModal"),
   });
 
+  // ---- Renderers listeners ----
+  ipcRenderer.on("products:update-list", ()=> {
+    loadProducts(productsTable, productsTable.currentPage, 10);
+  })
+  
   // ---- Listeners Events ----
   btnRegister.addEventListener("click", () => {
     // Avisamos al proceso principal que queremos abrir product-add
@@ -62,23 +67,23 @@
   });
 
   // ---- Logic ----
-    function editProduct(product) {
-      ipcRenderer.send("open-product-add", { ...product });
-      document.getElementById("overlay").style.display = "block";
-    }
+  function editProduct(product) {
+    ipcRenderer.send("open-product-add", { ...product });
+    document.getElementById("overlay").style.display = "block";
+  }
 
-    async function deleteProduct(product) {
-      modal.show({
-        title: `Elimnar ${product.name}`,
-        message: "¿Seguro que desea continuar?",
-        onClickOption: async (isAgree) => {
-          if (isAgree) {
-            const response = await ipcRenderer.invoke("products:delete", product.id);
-            loadProducts(productsTable, 1, 10);
-          } 
-        },
-      });
-    }
+  async function deleteProduct(product) {
+    modal.show({
+      title: `Elimnar ${product.name}`,
+      message: "¿Seguro que desea continuar?",
+      onClickOption: async (isAgree) => {
+        if (isAgree) {
+          const response = await ipcRenderer.invoke("products:delete", product.id);
+          loadProducts(productsTable, 1, 10);
+        } 
+      },
+    });
+  }
 
   async function loadProducts(
     table,

@@ -38,9 +38,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await ipcRenderer.invoke(`products:${action}`, { data });
       if (response === false) {
         console.log("error creating product");
+      } else {
+        ipcRenderer.send("products:updated");
       }
-
       btnBack.click();
+
     },
     { once: true }
   );

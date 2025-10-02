@@ -125,6 +125,11 @@ ipcMain.on("back-to-products", () => {
 });
 
 // ===== Products IPC handlers =====
+
+ipcMain.on("products:updated", (event) => {
+  return homeWindow.webContents.send("products:update-list");
+});
+
 ipcMain.handle("products:get", (event, { page, pageSize, toSearch }) => {
   return productsService.getProducts(toSearch, page, pageSize);
 });
