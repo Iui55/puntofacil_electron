@@ -125,6 +125,10 @@ ipcMain.handle("products:add", (evet, { data }) => {
   return productsService.addProduct(data, 1);
 });
 
+ipcMain.handle("products:delete", (evet, productId) => {
+  return productsService.deleteProduct(productId, 1);
+});
+
 // ===== Sales IPC handlers =====
 ipcMain.handle("sales:getNextSaleNumber", (evet) => {
   return salesService.getLastSale().id + 1;

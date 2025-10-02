@@ -57,11 +57,29 @@
   // ---- Listeners Events ----
   btnRegister.addEventListener("click", () => {
     // Avisamos al proceso principal que queremos abrir product-add
-    ipcRenderer.send("open-product-add");
+    ipcRenderer.send("open-product-add", null);
     document.getElementById("overlay").style.display = "block";
   });
 
   // ---- Logic ----
+    function editProduct(product) {
+      ipcRenderer.send("open-product-add", { ...product });
+      document.getElementById("overlay").style.display = "block";
+    }
+
+    async function deleteProduct(product) {
+      modal.show({
+        title: `Elimnar ${product.name}`,
+        message: "¿Seguro que desea continuar?",
+        onClickOption: async (isAgree) => {
+          if (isAgree) {
+            const response = await ipcRenderer.invoke("products:delete", product.id);
+            loadProducts(productsTable, 1, 10);
+          } 
+        },
+      });
+    }
+
   async function loadProducts(
     table,
     page = 1,
@@ -76,13 +94,5 @@
 
     table.currentPage = page;
     table.setData(response.data, response.total);
-  }
-
-  function editProduct(product) {
-    modal.show({
-      title: `Editar ${product.name}`,
-      message: "¿Seguro que desea continuar?",
-      onClickOption: (isAgree) => {},
-    });
   }
 })();
