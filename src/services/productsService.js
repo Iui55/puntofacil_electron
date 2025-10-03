@@ -7,7 +7,7 @@ function getAllProducts() {
     return productsRepo.getAllProducts();
   } catch (error) {
     console.error("Error fetching products:", error);
-    throw error;
+    return false;
   }
 }
 
@@ -16,7 +16,7 @@ function getProducts(toSearch, page, pageSize) {
     return productsRepo.getProducts(toSearch, page, pageSize);
   } catch (error) {
     console.error("Error fetching products by name:", error);
-    throw error;
+    return false;
   }
 }
 
@@ -26,7 +26,6 @@ function addProduct(product, userId) {
   } catch (error) {
     console.error("Error adding product:", error);
     return false;
-    // throw error;
   }
 }
 
@@ -36,7 +35,6 @@ function updateProduct(product, userId) {
   } catch (error) {
     console.error("Error updating product:", error);
     return false;
-    // throw error;
   }
 }
 
@@ -46,7 +44,6 @@ function deleteProduct(product, userId) {
   } catch (error) {
     console.error("Error deleting product:", error);
     return false;
-    // throw error;
   }
 }
 

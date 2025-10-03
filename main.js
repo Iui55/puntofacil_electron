@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
 const { runMigrations } = require("./src/data/database/migrations.js");
+const notificationsService = require("./src/services/notificationsService.js");
 const productsService = require("./src/services/productsService.js");
 const salesService = require("./src/services/salesService.js");
 // const userService = require("./src/services/userService.js");
@@ -126,7 +127,7 @@ ipcMain.on("back-to-products", () => {
 
 // ===== Products IPC handlers =====
 
-ipcMain.on("products:updated", (event) => {
+ipcMain.on("products:updated", (event) => { // maybe unnecessary ???
   return homeWindow.webContents.send("products:update-list");
 });
 
@@ -135,15 +136,27 @@ ipcMain.handle("products:get", (event, { page, pageSize, toSearch }) => {
 });
 
 ipcMain.handle("products:add", (evet, { data }) => {
-  return productsService.addProduct(data, 1);
+  const response = productsService.addProduct(data, 1);
+  if (response !== false)
+    notificationsService.sendNotification(`Producto ${data.name} agregado`);
+
+  return response;
 });
 
 ipcMain.handle("products:update", (evet, { data }) => {
-  return productsService.updateProduct(data, 1);
+  const response = productsService.updateProduct(data, 1);
+  if (response !== false)
+    notificationsService.sendNotification(`Producto ${data.name} actualizado`);
+
+  return response; 
 });
 
 ipcMain.handle("products:delete", (evet, productId) => {
-  return productsService.deleteProduct(productId, 1);
+  const response = productsService.deleteProduct(productId, 1);
+  if (response !== false) 
+    notificationsService.sendNotification("Producto fue eliminado");
+
+  return response;
 });
 
 // ===== Sales IPC handlers =====
@@ -156,7 +169,11 @@ ipcMain.handle("sales:get", (evet, { page, pageSize, toSearch }) => {
 });
 
 ipcMain.handle("sales:add", (evet, data) => {
-  return salesService.addSale(data, 1);
+  const response = salesService.addSale(data, 1);
+    if (response !== false)
+      notificationsService.sendNotification("Venta realizada");
+
+  return response; 
 });
 
 app.whenReady().then(() => {

@@ -54,7 +54,7 @@ export class ProductsRepo {
     });
 
     makeProduct();
-    return productInfo.lastInsertRowid;
+    return product;
   }
   
   updateProduct(product, userId) {
@@ -79,7 +79,7 @@ export class ProductsRepo {
     });
 
     makeProduct();
-    return true;
+    return product;
   }
 
   deleteProduct(productId, userId) {
