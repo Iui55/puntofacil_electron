@@ -9,8 +9,9 @@ class TableData {
       this.headers.push({ label: "Acciones", key: "__actions" });
 
     this.onSelect = options.onSelect || ((item) => {});
+    this.mapRow = options.mapRow;
     this.renderRow = options.renderRow || this.buildRow;
-    
+
     this.loadData = options.loadData || (() => {}); // async function (page, pageSize) => { data: [], totalRecords: number }
     this.data = options.data || []; // Array of data objects
     this.totalRecords = options.totalRecords || 0;
@@ -35,6 +36,7 @@ class TableData {
       const col = document.createElement("div");
       col.className = "col";
       col.textContent = h.label;
+      col.style.flex = h.flex || h.key === "__actions" ? 1 : 1;
       headerEl.appendChild(col);
     });
     // Render empty body
@@ -111,6 +113,9 @@ class TableData {
   }
 
   buildRow(data, index) {
+    if (this.mapRow !== undefined && this.mapRow !== null)
+      data = this.mapRow({ ...data });
+
     const row = document.createElement("div");
     row.className = "table-row";
     row.addEventListener("click", () => {
@@ -120,12 +125,20 @@ class TableData {
     this.headers.forEach((h) => {
       const col = document.createElement("div");
       col.className = "col";
+      col.style.flex = h.flex || 1;
       if (h.key === "__actions") {
+        col.className = "col actions";
+        col.style.flex = h.flex || 1;
         // Render action buttons
         this.actions.forEach((action) => {
           const btn = document.createElement("button");
+          btn.title = action.label || "";
           btn.className = `action-btn ${action.class || ""}`;
-          btn.textContent = action.label || "Action";
+
+          const icon = document.createElement("i");
+          icon.className = action.icon || "";
+
+          btn.appendChild(icon);
           btn.addEventListener("click", (e) => {
             e.stopPropagation(); // to avoid triggering row click
             action.onClick(data, index);

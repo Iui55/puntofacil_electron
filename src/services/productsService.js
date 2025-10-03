@@ -30,8 +30,30 @@ function addProduct(product, userId) {
   }
 }
 
+function updateProduct(product, userId) {
+  try {
+    return productsRepo.updateProduct(product, userId);
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return false;
+    // throw error;
+  }
+}
+
+function deleteProduct(product, userId) {
+  try {
+    return productsRepo.deleteProduct(product, userId);
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    return false;
+    // throw error;
+  }
+}
+
 module.exports = {
   getAllProducts,
   getProducts,
   addProduct,
+  updateProduct,
+  deleteProduct
 };

@@ -193,19 +193,22 @@ body {
 }
 
 /* ====== TableData ====== */
+.table {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+}
+
 .table-box {
   background: #f5f5f5;
-  border-radius: 10px;
-  display: flex;
-  height: 495px;
-  flex-direction: column;
   padding: 10px;
+  border-radius: 10px;
+  flex: 1;
 }
 
 .table-header,
 .table-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  display: flex;
   justify-items: center;
   gap: 10px;
   padding: 10px;
@@ -302,4 +305,62 @@ body {
 .page-number.active {
   background: #1e3a8a;
   color: #fff;
+}
+
+/* ====== MODAL ======== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none; /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  animation: show-modal 0.3s ease;
+}
+
+/* Animation */
+@keyframes show-modal {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Buttons */
+.modal-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modal-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-actions button:first-child {
+  background: #1e3a8a;
+  color: white;
+}
+
+.modal-actions button:last-child {
+  background: #e5e7eb;
 }
