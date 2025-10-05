@@ -73,12 +73,12 @@ const createProductAddWindow = (product) => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      additionalArguments: [JSON.stringify(product)],
     },
   });
 
   productAddWindow.loadFile("src/screens/product-add/product-add.html");
-  productAddWindow.on("open-product-ready", () => {
+  productAddWindow.on("ready-to-show", (event) => {
+    productAddWindow.webContents.send("set-product", product);
     productAddWindow.show();
   });
 
@@ -116,9 +116,9 @@ ipcMain.on("open-product-add", (event, product) => {
   createProductAddWindow(product);
 });
 
-ipcMain.on("open-product-ready", () => {
-  if (productAddWindow !== null) productAddWindow.show();
-});
+// ipcMain.on("open-product-ready", () => {
+//   if (productAddWindow !== null) productAddWindow.show();
+// });
 
 // Regresar de Product-Add a Products
 ipcMain.on("back-to-products", () => {
@@ -127,7 +127,8 @@ ipcMain.on("back-to-products", () => {
 
 // ===== Products IPC handlers =====
 
-ipcMain.on("products:updated", (event) => { // maybe unnecessary ???
+ipcMain.on("products:updated", (event) => {
+  // maybe unnecessary ???
   return homeWindow.webContents.send("products:update-list");
 });
 
@@ -148,12 +149,12 @@ ipcMain.handle("products:update", (evet, { data }) => {
   if (response !== false)
     notificationsService.sendNotification(`Producto ${data.name} actualizado`);
 
-  return response; 
+  return response;
 });
 
 ipcMain.handle("products:delete", (evet, productId) => {
   const response = productsService.deleteProduct(productId, 1);
-  if (response !== false) 
+  if (response !== false)
     notificationsService.sendNotification("Producto fue eliminado");
 
   return response;
@@ -170,10 +171,10 @@ ipcMain.handle("sales:get", (evet, { page, pageSize, toSearch }) => {
 
 ipcMain.handle("sales:add", (evet, data) => {
   const response = salesService.addSale(data, 1);
-    if (response !== false)
-      notificationsService.sendNotification("Venta realizada");
+  if (response !== false)
+    notificationsService.sendNotification("Venta realizada");
 
-  return response; 
+  return response;
 });
 
 app.whenReady().then(() => {

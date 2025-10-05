@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const { ipcRenderer } = require("electron");
-  const args = process.argv.slice(-1);
-  const product = JSON.parse(args);
+
   let action = "add";
   // ---- UI Components ----
   const form = document.getElementById("productForm");
@@ -9,18 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnSave = document.getElementById("btn-save");
 
   // ---- Logic ----
-  
-  // If it's edit action
-  if (product !== null) {
-    action = "update"; 
-    Object.keys(product).forEach((key) => {
-      if (form.elements[key]) {
-        form.elements[key].value = product[key];
-      }
-    });
-    form.elements["id"].disabled = true;
-    btnSave.textContent = "Actualizar"
-  }
 
   // ---- Listeners ----
   btnBack.addEventListener("click", () => {
@@ -42,10 +29,21 @@ document.addEventListener("DOMContentLoaded", () => {
         ipcRenderer.send("products:updated");
       }
       btnBack.click();
-
     },
     { once: true }
   );
 
-  ipcRenderer.send("open-product-ready");
+  ipcRenderer.on("set-product", (event, product) => {
+    // If it's edit action
+    if (product !== null) {
+      action = "update";
+      Object.keys(product).forEach((key) => {
+        if (form.elements[key]) {
+          form.elements[key].value = product[key];
+        }
+      });
+      form.elements["id"].disabled = true;
+      btnSave.textContent = "Actualizar";
+    }
+  });
 });
