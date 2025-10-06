@@ -16,10 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ---- Renderers listeners ----
-  ipcRenderer.on("app:notification", (event, message) => {
+  ipcRenderer.on("app:notification", (event, messageData) => {
     const toast = document.createElement("div");
     toast.classList.add("notification");
-    toast.textContent = message;
+    if (messageData.type !== "success") 
+      toast.classList.add(messageData.type);
+    
+    toast.textContent = messageData.message;
 
     notificationsContainer.appendChild(toast);
     
