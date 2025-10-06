@@ -1,10 +1,7 @@
 (() => {
   const { ipcRenderer } = require("electron");
-
-  //
+  const { sendNotification } = require("../utils/utils.js")
   let saleItems = [];
-  const STORAGE_KEY_LAST_SALE = "pf_last_sale_number";
-  const STORAGE_KEY_SALES = "pf_sales_records";
 
   // ----- Helpers -----
   const $ = (sel) => document.querySelector(sel);
@@ -44,6 +41,8 @@
     },
   });
 
+  /* ==== Logic ==== */
+  
   // ----- Sale number logic (persistente) -----
   function renderSaleNumber() {
     ipcRenderer.invoke("sales:getNextSaleNumber").then((nextId) => {
@@ -117,6 +116,12 @@
     addBtn.className = "catalog-add";
     addBtn.textContent = "Agregar";
     addBtn.addEventListener("click", () => {
+      if (rowData.stock === 0) {
+        sendNotification(`${rowData.name} no disponible`);
+        return;
+      }
+      rowData.stock -= 1;
+      stock.textContent = rowData.stock; 
       addSaleProduct({ ...rowData });
     });
 
@@ -164,7 +169,7 @@
   registerBtn.addEventListener("click", () => {
     const total = saleItems.reduce((s, it) => s + Number(it.price || 0), 0);
     if (saleItems.length === 0) {
-      alert("No hay productos para registrar.");
+      sendNotification("No hay productos seleccionados");
       return;
     }
 
@@ -187,10 +192,10 @@
       changeInput.value = "0.00";
   
       renderSaleNumber();
-      alert(`Venta registrada (folio: ${saleRecord.id}).`);
+      
     })
     .catch(() => {
-      alert(`Venta no registrada.`);
+      sendNotification("Venta no registrada", "error");
     })
   });
 

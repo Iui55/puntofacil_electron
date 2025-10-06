@@ -109,6 +109,11 @@ ipcMain.on("window-control", (event, action) => {
   if (action === "close") loginWindow.close();
 });
 
+/* ==== Notifications ==== */
+ipcMain.on("notifications:push", (event, data) => {
+  notificationsService.sendNotification(data.message, data.type);
+});
+
 /* ===== Navegación Products <-> Product-Add ===== */
 
 // Abrir Product-Add y cerrar Products
@@ -172,7 +177,9 @@ ipcMain.handle("sales:get", (evet, { page, pageSize, toSearch }) => {
 ipcMain.handle("sales:add", (evet, data) => {
   const response = salesService.addSale(data, 1);
   if (response !== false)
-    notificationsService.sendNotification("Venta realizada");
+    notificationsService.sendNotification(
+      `Venta con folio: ${response} registrada`
+    );
 
   return response;
 });
