@@ -28,7 +28,7 @@ export class SalesRepo {
       "INSERT INTO sales (user_id, total_price, state) VALUES (?, ?, ?)"
     );
     const detailQuery = db.prepare(
-      "INSERT INTO detail_sales (sale_id, product_id, cost, price, no_product) VALUES (?, ?, ?, ?, ?)"
+      "INSERT INTO detail_sales (sale_id, product_id, lot, cost, price) VALUES (?, ?, ?, ?, ?)"
     );
     const makeSale = db.transaction(() => {
       saleInfo = saleQuery.run(userId, sale.total, 1);
@@ -36,9 +36,9 @@ export class SalesRepo {
         detailQuery.run(
           saleInfo.lastInsertRowid,
           product.id,
+          product.lot,
           product.cost,
           product.price,
-          product.no_product
         );
       });
     });

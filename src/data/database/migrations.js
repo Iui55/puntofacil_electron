@@ -45,9 +45,9 @@ function runMigrations() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       sale_id INTEGER NOT NULL, 
       product_id INTEGER NOT NULL, 
+      lot INTEGER NOT NULL,
       cost REAL NOT NULL, 
       price REAL NOT NULL, 
-      no_product INTEGER NO NULL,
       FOREIGN KEY (sale_id) REFERENCES sales(id),
       FOREIGN KEY (product_id) REFERENCES products(id)
     );`,
