@@ -31,6 +31,16 @@ function getLastSale() {
 
 function addSale(sale, userId) {
   try {
+    const group_products = sale.products.reduce((acc, product) => {
+      if (!acc[product.id]) {
+        acc[product.id] = { ...product, lot: 1 };
+      } else {
+        acc[product.id].lot++;
+      }
+      return acc;
+    }, {});
+
+    sale.products = Object.values(group_products);
     return salesRepo.addSale(sale, userId);
   } catch (error) {
     console.error("Error adding sale:", error);
