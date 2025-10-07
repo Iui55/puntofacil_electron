@@ -1,6 +1,6 @@
 (() => {
   const { ipcRenderer } = require("electron");
-
+  const { formatMoney } = require("../utils/utils.js");
   // ---- UI Components ----
   const btnRegister = document.getElementById("registerProductBtn");
 
@@ -34,6 +34,14 @@
         onClick: deleteProduct,
       },
     ],
+    mapRow: (data) => {
+      return {
+        ...data,
+        id: String(data.id).padStart(14, "0"),
+        price: formatMoney(data.price),
+        cost: formatMoney(data.cost),
+      };
+    },
     loadData: (page, pageSize) => {
       loadProducts(productsTable, page, pageSize);
     },
@@ -55,10 +63,10 @@
   });
 
   // ---- Renderers listeners ----
-  ipcRenderer.on("products:update-list", ()=> {
+  ipcRenderer.on("products:update-list", () => {
     loadProducts(productsTable, productsTable.currentPage, 10);
-  })
-  
+  });
+
   // ---- Listeners Events ----
   btnRegister.addEventListener("click", () => {
     // Avisamos al proceso principal que queremos abrir product-add
@@ -78,9 +86,12 @@
       message: "¿Seguro que desea continuar?",
       onClickOption: async (isAgree) => {
         if (isAgree) {
-          const response = await ipcRenderer.invoke("products:delete", product.id);
+          const response = await ipcRenderer.invoke(
+            "products:delete",
+            product.id
+          );
           loadProducts(productsTable, 1, 10);
-        } 
+        }
       },
     });
   }

@@ -7,6 +7,22 @@ function sendNotification(message, type = "warning") {
   });
 }
 
-module.exports = {
-    sendNotification
+function formatMoney(value) {
+  return `$${value.toFixed(2)}`;
 }
+
+function formatDate(value) {
+  const date = new Date(value * 1000);
+  return date.toLocaleString(value);
+}
+
+function saleState(stateId) {
+  return { 1: "Completada" }[stateId];
+}
+
+module.exports = {
+  sendNotification,
+  formatMoney,
+  formatDate,
+  saleState,
+};
