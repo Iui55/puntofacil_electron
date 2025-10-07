@@ -22,7 +22,9 @@
   // Components state
   const productsTable = new TableData({
     container: document.getElementById("productsTable"),
-    headers: [],
+    headers: [
+      { label: "Catálogo", key: "id" },
+    ],
     renderRow: renderCatalogRow,
     data: [],
     loadData: (page, pageSize) => {
