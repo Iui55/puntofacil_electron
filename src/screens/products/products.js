@@ -34,6 +34,13 @@
         onClick: deleteProduct,
       },
     ],
+    mapRow: (data) => {
+      return {
+        ...data,
+        id: String(data.id).padStart(14, "0"),
+        price: data.price.toFixed(2),
+      };
+    },
     loadData: (page, pageSize) => {
       loadProducts(productsTable, page, pageSize);
     },

@@ -10,7 +10,7 @@ class TableData {
 
     this.onSelect = options.onSelect || ((item) => {});
     this.mapRow = options.mapRow;
-    this.renderRow = options.renderRow || this.buildRow;
+    this.renderRow = options.renderRow || this._renderRow;
 
     this.loadData = options.loadData || (() => {}); // async function (page, pageSize) => { data: [], totalRecords: number }
     this.data = options.data || []; // Array of data objects
@@ -106,16 +106,19 @@ class TableData {
     }
 
     this.data.forEach((rowData, rowIndex) => {
-      const row = this.renderRow(rowData, rowIndex);
-
-      bodyEl.appendChild(row);
+      bodyEl.appendChild(this.buildRow(rowData, rowIndex));
     });
   }
 
+
   buildRow(data, index) {
     if (this.mapRow !== undefined && this.mapRow !== null)
-      data = this.mapRow({ ...data });
+      data = this.mapRow(data);
 
+    return this.renderRow(data, index);
+  }
+
+  _renderRow(data, index ) {
     const row = document.createElement("div");
     row.className = "table-row";
     row.addEventListener("click", () => {
