@@ -1,6 +1,6 @@
 (() => {
   const { ipcRenderer } = require("electron");
-  const { sendNotification } = require("../utils/utils.js")
+  const { sendNotification } = require("../utils/utils.js");
   let saleItems = [];
 
   // ----- Helpers -----
@@ -42,7 +42,7 @@
   });
 
   /* ==== Logic ==== */
-  
+
   // ----- Sale number logic (persistente) -----
   function renderSaleNumber() {
     ipcRenderer.invoke("sales:getNextSaleNumber").then((nextId) => {
@@ -79,6 +79,14 @@
         // Remove product
         saleItems.splice(idx, 1);
         renderSaleItems();
+        const found = productsTable.data.findIndex(
+          (product) => it.id === product.id
+        );
+
+        if (found >= 0) {
+          productsTable.data[found].stock++;
+          productsTable.setData(productsTable.data, productsTable.data.length);
+        }
       });
 
       row.appendChild(nameEl);
@@ -121,7 +129,7 @@
         return;
       }
       rowData.stock -= 1;
-      stock.textContent = rowData.stock; 
+      stock.textContent = rowData.stock;
       addSaleProduct({ ...rowData });
     });
 
@@ -182,21 +190,21 @@
       change: parseFloat(changeInput.value || 0),
     };
 
-    addSale(saleRecord).then((response) => {
-      // Clear sale data
-      if (response === false) throw Error("Sale no registered");
+    addSale(saleRecord)
+      .then((response) => {
+        // Clear sale data
+        if (response === false) throw Error("Sale no registered");
 
-      saleItems = [];
-      renderSaleItems();
-      cashInput.value = "0.00";
-      changeInput.value = "0.00";
-  
-      renderSaleNumber();
-      
-    })
-    .catch(() => {
-      sendNotification("Venta no registrada", "error");
-    })
+        saleItems = [];
+        renderSaleItems();
+        cashInput.value = "0.00";
+        changeInput.value = "0.00";
+
+        renderSaleNumber();
+      })
+      .catch(() => {
+        sendNotification("Venta no registrada", "error");
+      });
   });
 
   // ---- Init Process ----
