@@ -52,4 +52,23 @@ export class SalesRepo {
     makeSale();
     return saleInfo.lastInsertRowid;
   }
+
+  // addTempSale(product) {
+  //   const tempTableSale = db
+  //     .prepare(
+  //       `CREATE TABLE IF NOT EXISTS temp_sales (
+  //       id INTEGER PRIMARY KEY AUTOINCREMENT,
+  //       product_id INTEGER NOT NULL,
+  //       lot INTEGER NOT NULL,
+  //       date INTEGER DEFAULT (strftime('%s','now'))
+  //     );`
+  //     )
+  //     .run();
+
+  //   const saleTemp = db
+  //     .prepare("INSERT INTO temp_sales (product_id, lot) VALUES (?, ?)")
+  //     .run(product.id, product.lot);
+
+  //   return saleTemp.lastInsertRowid;
+  // }
 }
