@@ -110,19 +110,20 @@ class TableData {
     });
   }
 
-
   buildRow(data, index) {
-    if (this.mapRow !== undefined && this.mapRow !== null)
-      data = this.mapRow(data);
+    let presenterData =
+      this.mapRow !== undefined && this.mapRow !== null
+        ? this.mapRow(data)
+        : data;
 
-    return this.renderRow(data, index);
+    return this.renderRow(data, presenterData);
   }
 
-  _renderRow(data, index ) {
+  _renderRow(originData, presenterData) {
     const row = document.createElement("div");
     row.className = "table-row";
     row.addEventListener("click", () => {
-      this.onSelect(data);
+      this.onSelect(presenterData);
     });
 
     this.headers.forEach((h) => {
@@ -132,6 +133,7 @@ class TableData {
       if (h.key === "__actions") {
         col.className = "col actions";
         col.style.flex = h.flex || 1;
+
         // Render action buttons
         this.actions.forEach((action) => {
           const btn = document.createElement("button");
@@ -144,12 +146,12 @@ class TableData {
           btn.appendChild(icon);
           btn.addEventListener("click", (e) => {
             e.stopPropagation(); // to avoid triggering row click
-            action.onClick(data, index);
+            action.onClick(originData);
           });
           col.appendChild(btn);
         });
       } else {
-        col.textContent = data[h.key] || "";
+        col.textContent = presenterData[h.key] || "";
       }
       row.appendChild(col);
     });

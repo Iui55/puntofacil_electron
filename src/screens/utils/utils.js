@@ -7,6 +7,11 @@ function sendNotification(message, type = "warning") {
   });
 }
 
-module.exports = {
-    sendNotification
+function formatMoney(value) {
+  return `$${value.toFixed(2)}`;
 }
+
+module.exports = {
+  sendNotification,
+  formatMoney,
+};
