@@ -4,16 +4,10 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
 }
 
 /* ====== TOOLBAR ====== */
 .search-sales {
   flex: 1;
-}
-
-#sales-table {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  /* gap: 10px; */
 }
