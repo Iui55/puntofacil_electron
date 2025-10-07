@@ -32,13 +32,19 @@ export class SalesRepo {
     );
     const makeSale = db.transaction(() => {
       saleInfo = saleQuery.run(userId, sale.total, 1);
+
       sale.products.forEach((product) => {
+        db.prepare(`UPDATE products SET stock = stock - ? WHERE id = ?`).run(
+          product.lot,
+          product.id
+        );
+
         detailQuery.run(
           saleInfo.lastInsertRowid,
           product.id,
           product.lot,
           product.cost,
-          product.price,
+          product.price
         );
       });
     });
