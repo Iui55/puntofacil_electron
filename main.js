@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron/main");
+const { app, BrowserWindow, ipcMain, shell } = require("electron/main");
 const { runMigrations } = require("./src/data/database/migrations.js");
 const notificationsService = require("./src/services/notificationsService.js");
 const productsService = require("./src/services/productsService.js");
@@ -183,6 +183,41 @@ ipcMain.handle("sales:add", (evet, data) => {
 
   return response;
 });
+
+// ===== PFD =====
+const { generateSalesReport } = require("./src/reports/report-generator");
+const { filterSalesByOption } = require("./src/reports/date-filters");
+
+ipcMain.handle(
+  "generate-sales-report",
+  async (event, { sales, option, start, end }) => {
+    try {
+      const filtered = filterSalesByOption(sales, option, start, end);
+      const titleMap = {
+        today: "Hoy",
+        yesterday: "Ayer",
+        week: "Esta semana",
+        month: "Este mes",
+        range: `Del ${start} al ${end}`,
+      };
+
+      const title = `Reporte de ventas — ${titleMap[option]}`;
+      const logoPath = path.join(__dirname, "src/assets/images/puntofacil.png");
+      const outputPath = path.join(
+        app.getPath("documents"),
+        `Reporte_${Date.now()}.pdf`
+      );
+
+      await generateSalesReport(filtered, title, outputPath, logoPath);
+
+      await shell.openPath(outputPath); // abrir automáticamente
+      return { ok: true, path: outputPath };
+    } catch (error) {
+      console.error("Error generando reporte:", error);
+      return { ok: false, error: error.message };
+    }
+  }
+);
 
 app.whenReady().then(() => {
   runMigrations();
