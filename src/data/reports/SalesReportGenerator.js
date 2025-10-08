@@ -3,11 +3,12 @@ const { COLORS } = require("./config/pdfConstants");
 const PdfBaseGenerator = require("./PDFBaseGenerator");
 
 class SalesReportGenerator extends PdfBaseGenerator {
+  
   async generate(sales) {
     const streamPromise = this.initStream();
     this.addHeader(
       "Reporte de Ventas",
-      // path.join(__dirname, "../..", "assets/images/puntofacil.jpg")
+      path.join(__dirname, "../..", "assets/images/puntofacil.png")
     );
 
     // Table headers
