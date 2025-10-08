@@ -22,7 +22,9 @@
   // Components state
   const productsTable = new TableData({
     container: document.getElementById("productsTable"),
-    headers: [],
+    headers: [
+      { label: "Catálogo", key: "id" },
+    ],
     renderRow: renderCatalogRow,
     data: [],
     loadData: (page, pageSize) => {
@@ -175,11 +177,17 @@
   }
 
   registerBtn.addEventListener("click", () => {
-    const total = saleItems.reduce((s, it) => s + Number(it.price || 0), 0);
     if (saleItems.length === 0) {
       sendNotification("No hay productos seleccionados");
       return;
     }
+
+    const total = saleItems.reduce((s, it) => s + Number(it.price || 0), 0);
+    if (parseFloat(cashInput.value || 0) < total) {
+      sendNotification("El efectivo no alcanza el monto total", "error");
+      return;
+    }
+
 
     const saleRecord = {
       id: Number(saleNumberInput.value), // devuelve el nuevo número guardado

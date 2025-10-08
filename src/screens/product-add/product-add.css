@@ -1,9 +1,11 @@
 /* ===== HEADER ===== */
 body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   margin: 0;
   padding: 0;
   background: white;
-  height: 100%;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -51,8 +53,9 @@ body {
 /* ===== FOOTER ===== */
 .footer-buttons {
   display: flex;
-  justify-content: space-between;
-  margin: 20px;
+  flex: 1;
+  justify-content: space-around;
+  /* margin: 20px; */
 }
 
 .btn-back {
@@ -60,7 +63,7 @@ body {
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 10px 20px;
+  padding: 0px 20px;
   cursor: pointer;
 }
 
