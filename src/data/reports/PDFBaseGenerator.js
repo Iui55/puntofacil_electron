@@ -7,12 +7,20 @@ const { COLORS } = require("./config/pdfConstants");
 
 class PdfBaseGenerator {
   constructor(filename) {
-    this.filePath = path.join(os.homedir(), "Descargas", filename);
+    this.filename = filename; 
     this.doc = new PDFDocument({ margin: 40 });
   }
 
   initStream() {
-    const stream = fs.createWriteStream(this.filePath);
+    let stream;
+    try {
+      this.filePath = path.join(os.homedir(), "Downloads", this.filename);
+      stream = fs.createWriteStream(this.filePath);
+    } catch(error) {
+      this.filePath = path.join(os.homedir(), "Descargas", this.filename);
+      stream = fs.createWriteStream(this.filePath);
+    }
+
     this.doc.pipe(stream);
     return new Promise((resolve, reject) => {
       this.doc.on("end", () => resolve(this.filePath));
