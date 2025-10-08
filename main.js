@@ -3,6 +3,7 @@ const { runMigrations } = require("./src/data/database/migrations.js");
 const notificationsService = require("./src/services/notificationsService.js");
 const productsService = require("./src/services/productsService.js");
 const salesService = require("./src/services/salesService.js");
+const ReportService = require("./src/services/reportService.js")
 // const userService = require("./src/services/userService.js");
 
 const path = require("path");
@@ -185,31 +186,33 @@ ipcMain.handle("sales:add", (evet, data) => {
 });
 
 // ===== PFD =====
-const { generateSalesReport } = require("./src/reports/report-generator");
-const { filterSalesByOption } = require("./src/reports/date-filters");
+// const { generateSalesReport } = require("./src/reports/report-generator");
+// const { filterSalesByOption } = require("./src/reports/date-filters");
 
 ipcMain.handle(
   "generate-sales-report",
-  async (event, { sales, option, start, end }) => {
+  async (event, sales ) => {
     try {
-      const filtered = filterSalesByOption(sales, option, start, end);
-      const titleMap = {
-        today: "Hoy",
-        yesterday: "Ayer",
-        week: "Esta semana",
-        month: "Este mes",
-        range: `Del ${start} al ${end}`,
-      };
+      const reportService = new ReportService();
+      // const filtered = filterSalesByOption(sales, option, start, end);
+      // const titleMap = {
+      //   today: "Hoy",
+      //   yesterday: "Ayer",
+      //   week: "Esta semana",
+      //   month: "Este mes",
+      //   range: `Del ${start} al ${end}`,
+      // };
 
-      const title = `Reporte de ventas — ${titleMap[option]}`;
-      const logoPath = path.join(__dirname, "src/assets/images/puntofacil.jpg");
-      const outputPath = path.join(
-        app.getPath("documents"),
-        `Reporte_${Date.now()}.pdf`
-      );
+      // const title = `Reporte de ventas — ${titleMap[option]}`;
+      // const logoPath = path.join(__dirname, "src/assets/images/puntofacil.jpg");
+      // const outputPath = path.join(
+      //   app.getPath("documents"),
+      //   `Reporte_${Date.now()}.pdf`
+      // );
 
-      await generateSalesReport(filtered, title, outputPath, logoPath);
-
+      const outputPath = await reportService.generateSalesReport(sales);
+      console.log("outputPath");
+      console.log(outputPath);
       await shell.openPath(outputPath); // abrir automáticamente
       return { ok: true, path: outputPath };
     } catch (error) {

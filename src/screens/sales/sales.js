@@ -1,8 +1,11 @@
 (() => {
   const { ipcRenderer } = require("electron");
   const { formatDate, formatMoney, saleState } = require("../utils/utils.js");
-  const path = require("path");
 
+  // ---- UI Components ----
+  const reportBtn = document.getElementById("generateReportBtn");
+  
+  // ---- Components ----
   const SearchBar = require("../components/searchBar/searchBar.js");
   const TableData = require("../components/tableData/tableData.js");
 
@@ -30,6 +33,7 @@
     },
   });
 
+  
   const sbSales = new SearchBar({
     container: document.getElementById("searchBarSales"),
     placeholder: "Buscar ventas",
@@ -40,7 +44,7 @@
       loadSales(salesTable);
     },
   });
-
+  
   // Load sales from main process
   async function loadSales(
     table,
@@ -53,41 +57,29 @@
       pageSize,
       toSearch,
     });
-
+    
     table.currentPage = page;
     table.setData(response.data, response.total);
   }
   // src/screens/sales/sales-report.js
-  const filterSelect = document.getElementById("filterOption");
-  const rangePicker = document.getElementById("rangePicker");
-  const startInput = document.getElementById("startDate");
-  const endInput = document.getElementById("endDate");
-  const reportBtn = document.getElementById("generateReportBtn");
-
-  filterSelect.addEventListener("change", () => {
-    rangePicker.style.display =
-      filterSelect.value === "range" ? "block" : "none";
-  });
-
+  // const filterSelect = document.getElementById("filterOption");
+  // const rangePicker = document.getElementById("rangePicker");
+  // const startInput = document.getElementById("startDate");
+  // const endInput = document.getElementById("endDate");
+  
+  
+  // filterSelect.addEventListener("change", () => {
+    //   rangePicker.style.display =
+    //     filterSelect.value === "range" ? "block" : "none";
+    // });
+    
   reportBtn.addEventListener("click", async () => {
-    const option = filterSelect.value;
-    const start = startInput.value;
-    const end = endInput.value;
-
-    // Tu fuente de datos, por ejemplo desde localStorage:
-    const sales = JSON.parse(localStorage.getItem("pf_sales_records") || "[]");
-
-    const res = await ipcRenderer.invoke("generate-sales-report", {
-      sales,
-      option,
-      start,
-      end,
-    });
-
-    if (res.ok) {
-      alert("✅ Reporte generado correctamente.\nRuta: " + res.path);
-    } else {
-      alert("❌ Error al generar reporte: " + res.error);
-    }
+      const res = await ipcRenderer.invoke("generate-sales-report", salesTable.data);
+      console.log(res)
+      if (res.ok) {
+        alert("✅ Reporte generado correctamente.\nRuta: " + res.path);
+      } else {
+        alert("❌ Error al generar reporte: " + res.error);
+      } 
   });
 })();
