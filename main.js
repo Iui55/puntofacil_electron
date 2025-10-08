@@ -202,7 +202,7 @@ ipcMain.handle(
       };
 
       const title = `Reporte de ventas — ${titleMap[option]}`;
-      const logoPath = path.join(__dirname, "src/assets/images/puntofacil.png");
+      const logoPath = path.join(__dirname, "src/assets/images/puntofacil.jpg");
       const outputPath = path.join(
         app.getPath("documents"),
         `Reporte_${Date.now()}.pdf`

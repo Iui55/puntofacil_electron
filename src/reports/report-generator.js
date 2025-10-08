@@ -63,7 +63,7 @@ function generateSalesReport(sales, title, outputPath, logoPath) {
         .fillColor(blue)
         .text(`Total general: $${total.toFixed(2)}`, { align: "right" });
 
-      doc.pipe(stream);
+      //doc.pipe(stream);
       doc.end();
 
       stream.on("finish", () => resolve(outputPath));
