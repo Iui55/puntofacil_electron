@@ -15,7 +15,7 @@ function runMigrations() {
       name TEXT NOT NULL,
       description TEXT DEFAULT '',
       min_stock INTEGER NOT NULL,
-      stock INTEGER NOT NULL,
+      stock INTEGER NOT NULL CHECK (stock >= 0),
       cost REAL NOT NULL,
       price REAL NOT NULL,
       enabled BOOLEAN DEFAULT TRUE,
