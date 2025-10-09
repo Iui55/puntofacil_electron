@@ -311,6 +311,7 @@ body {
   background: #fff;
   border: 1px solid #1e3a8a;
   color: #1e3a8a;
+  width: 40px;
   padding: 5px 10px;
   border-radius: 6px;
   cursor: pointer;

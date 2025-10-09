@@ -65,6 +65,8 @@ class TableData {
 
   _buildPagination() {
     const totalPages = Math.ceil(this.totalRecords / this.pageSize) || 1;
+    const showPages = 5;
+
     this.pagesContainer.innerHTML = "";
 
     // Disable/enable buttons
@@ -75,22 +77,43 @@ class TableData {
     this.nextPageBtn.classList.toggle("disabled", this.nextPageBtn.disabled);
 
     // Create page buttons
-    for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement("button");
-      btn.className = "page-number";
-      if (i === this.currentPage) btn.classList.add("active");
+    const buildTo = totalPages >= showPages + this.currentPage
+        ? showPages + this.currentPage
+        : totalPages;
+    
+    const buildFrom =
+      totalPages - showPages <= 0
+        ? 1
+        : Math.min(totalPages - showPages, this.currentPage);
 
-      btn.textContent = String(i);
-      btn.addEventListener("click", async () => {
-        if (i === this.currentPage) return;
-
-        this.currentPage = i;
-        await this.loadData(this.currentPage, this.pageSize);
-        // this._buildPagination();
-      });
-
-      this.pagesContainer.appendChild(btn);
+    for (let i = buildFrom; i <= buildTo; i++) {
+      this.pagesContainer.appendChild(this._buildBtnPage(i));
     }
+    
+    if (buildTo != totalPages) {
+      const btn = document.createElement("button");
+      btn.classList.disabled = true;
+      btn.className = "page-number";
+      btn.textContent = "...";
+      this.pagesContainer.appendChild(btn);
+      this.pagesContainer.appendChild(this._buildBtnPage(totalPages));
+    }
+  }
+
+  _buildBtnPage(numberPage) {
+    const btn = document.createElement("button");
+    btn.className = "page-number";
+    if (numberPage === this.currentPage) 
+      btn.classList.add("active");
+
+    btn.textContent = String(numberPage);
+    btn.addEventListener("click", async () => {
+      if (numberPage === this.currentPage) return;
+
+      this.currentPage = numberPage;
+      await this.loadData(this.currentPage, this.pageSize);
+    });
+    return btn;
   }
 
   setData(data, totalRecords = 0) {
