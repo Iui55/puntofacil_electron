@@ -1,5 +1,3 @@
-const { page } = require("pdfkit");
-
 (() => {
   const { ipcRenderer } = require("electron");
   const { formatDate, formatMoney, saleState } = require("../utils/utils.js");
