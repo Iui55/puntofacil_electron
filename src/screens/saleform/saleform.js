@@ -39,7 +39,7 @@
       loadProducts(productsTable, 1, productsTable.pageSize, toSearch);
     },
     onClear: () => {
-      loadProducts(productsTable);
+      loadProducts(productsTable, pageSize=productsTable.pageSize);
     },
   });
 

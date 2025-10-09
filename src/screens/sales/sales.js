@@ -1,3 +1,5 @@
+const { page } = require("pdfkit");
+
 (() => {
   const { ipcRenderer } = require("electron");
   const { formatDate, formatMoney, saleState } = require("../utils/utils.js");
@@ -19,6 +21,7 @@
       { label: "Fecha", key: "created_at" },
     ],
     data: [],
+    pageSize: 10,
     mapRow: (data) => {
       return {
         ...data,
@@ -41,7 +44,7 @@
       loadSales(salesTable, 1, salesTable.pageSize, toSearch);
     },
     onClear: () => {
-      loadSales(salesTable);
+      loadSales(salesTable, pageSize=salesTable.pageSize);
     },
   });
   
