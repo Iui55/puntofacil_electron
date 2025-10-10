@@ -12,9 +12,9 @@
       <option value="range">Rango de fechas</option>
     </select>
 
-    <div id="rangePicker" style="display: flex; flex-direction: row; gap: 10px">
-      <label>Desde: <input id="startDate" /></label>
-      <label>Hasta: <input id="endDate" /></label>
+    <div id="rangePicker" class="search-pill">
+      <i class="fa fa-calendar-o" aria-hidden="true"></i>
+      <input id="startDate" class="search-input" />
     </div>
     <button id="generateReportBtn" class="primary-btn" style="margin-top: 10px">
       Generar PDF
@@ -36,6 +36,6 @@
   </div>
 
   <!-- Tabla de productos -->
-   <div id="salesTable" class="table"></div>
+  <div id="salesTable" class="table"></div>
 </section>
 <script src="sales.js"></script>
