@@ -3,6 +3,19 @@
   <div class="toolbar">
     <!-- Barra de búsqueda -->
     <div class="search-sales" id="searchBarSales"></div>
+
+    <select id="filterOption">
+      <option value="today">Hoy</option>
+      <option value="yesterday">Ayer</option>
+      <option value="week">Esta semana</option>
+      <option value="month">Este mes</option>
+      <option value="range">Rango de fechas</option>
+    </select>
+
+    <div id="rangePicker" style="display: flex; flex-direction: row; gap: 10px">
+      <label>Desde: <input id="startDate" /></label>
+      <label>Hasta: <input id="endDate" /></label>
+    </div>
     <button id="generateReportBtn" class="primary-btn" style="margin-top: 10px">
       Generar PDF
     </button>
@@ -24,19 +37,5 @@
 
   <!-- Tabla de productos -->
    <div id="salesTable" class="table"></div>
-  <!-- <hr />
-  <h3 style="color: #1e3a8a">Generar reporte de ventas</h3>
-  <select id="filterOption">
-    <option value="today">Hoy</option>
-    <option value="yesterday">Ayer</option>
-    <option value="week">Esta semana</option>
-    <option value="month">Este mes</option>
-    <option value="range">Rango de fechas</option>
-  </select>
-
-  <div id="rangePicker" style="display: none; margin-top: 10px">
-    <label>Desde: <input type="date" id="startDate" /></label>
-    <label>Hasta: <input type="date" id="endDate" /></label>
-  </div> -->
 </section>
 <script src="sales.js"></script>

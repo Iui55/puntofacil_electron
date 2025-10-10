@@ -1,10 +1,12 @@
 (() => {
   const { ipcRenderer } = require("electron");
-  const { formatDate, formatMoney, saleState } = require("../utils/utils.js");
+  const { formatDate, formatMoney, saleState, buildDatePicker } = require("../utils/utils.js");
 
   // ---- UI Components ----
   const reportBtn = document.getElementById("generateReportBtn");
-  
+  const startDate = buildDatePicker(document.getElementById("startDate"));
+  const endDate = buildDatePicker(document.getElementById("endDate"));
+
   // ---- Components ----
   const SearchBar = require("../components/searchBar/searchBar.js");
   const TableData = require("../components/tableData/tableData.js");
