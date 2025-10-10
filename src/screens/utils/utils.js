@@ -21,9 +21,10 @@ function saleState(stateId) {
   return { 1: "Completada" }[stateId];
 }
 
-function buildDatePicker(component) {
+function buildDatePicker(component, mode = "range") {
   return flatpickr(component, {
-    dateFormat: "d/m/Y",
+    mode,
+    dateFormat: "Y-m-d",
     altInput: true,
     altFormat: "F j, Y",
     locale: {
@@ -79,5 +80,5 @@ module.exports = {
   formatMoney,
   formatDate,
   saleState,
-  buildDatePicker
+  buildDatePicker,
 };

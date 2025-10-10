@@ -1,11 +1,16 @@
 (() => {
   const { ipcRenderer } = require("electron");
-  const { formatDate, formatMoney, saleState, buildDatePicker } = require("../utils/utils.js");
+  const {
+    formatDate,
+    formatMoney,
+    saleState,
+    buildDatePicker,
+  } = require("../utils/utils.js");
 
   // ---- UI Components ----
   const reportBtn = document.getElementById("generateReportBtn");
   const startDate = buildDatePicker(document.getElementById("startDate"));
-  const endDate = buildDatePicker(document.getElementById("endDate"));
+  // const endDate = buildDatePicker(document.getElementById("endDate"));
 
   // ---- Components ----
   const SearchBar = require("../components/searchBar/searchBar.js");
@@ -36,7 +41,6 @@
     },
   });
 
-  
   const sbSales = new SearchBar({
     container: document.getElementById("searchBarSales"),
     placeholder: "Buscar ventas",
@@ -44,10 +48,10 @@
       loadSales(salesTable, 1, salesTable.pageSize, toSearch);
     },
     onClear: () => {
-      loadSales(salesTable, pageSize=salesTable.pageSize);
+      loadSales(salesTable, (pageSize = salesTable.pageSize));
     },
   });
-  
+
   // Load sales from main process
   async function loadSales(
     table,
@@ -60,7 +64,7 @@
       pageSize,
       toSearch,
     });
-    
+
     table.currentPage = page;
     table.setData(response.data, response.total);
   }
@@ -69,20 +73,22 @@
   // const rangePicker = document.getElementById("rangePicker");
   // const startInput = document.getElementById("startDate");
   // const endInput = document.getElementById("endDate");
-  
-  
+
   // filterSelect.addEventListener("change", () => {
-    //   rangePicker.style.display =
-    //     filterSelect.value === "range" ? "block" : "none";
-    // });
-    
+  //   rangePicker.style.display =
+  //     filterSelect.value === "range" ? "block" : "none";
+  // });
+
   reportBtn.addEventListener("click", async () => {
-      const res = await ipcRenderer.invoke("generate-sales-report", salesTable.data);
-      console.log(res)
-      if (res.ok) {
-        alert("✅ Reporte generado correctamente.\nRuta: " + res.path);
-      } else {
-        alert("❌ Error al generar reporte: " + res.error);
-      } 
+    const res = await ipcRenderer.invoke(
+      "generate-sales-report",
+      salesTable.data
+    );
+    console.log(res);
+    if (res.ok) {
+      alert("✅ Reporte generado correctamente.\nRuta: " + res.path);
+    } else {
+      alert("❌ Error al generar reporte: " + res.error);
+    }
   });
 })();
