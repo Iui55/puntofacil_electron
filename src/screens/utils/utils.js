@@ -12,22 +12,29 @@ function formatMoney(value) {
   return `$${value.toFixed(2)}`;
 }
 
-function formatDate(value) {
+function formatDateTime(value) {
   const date = new Date(value * 1000);
-  return date.toLocaleString(value);
+  return date.toLocaleString();
+}
+
+function formatDate(date) {
+  return date.toISOString().split("T")[0];
 }
 
 function saleState(stateId) {
   return { 1: "Completada" }[stateId];
 }
 
-function buildDatePicker(component, mode = "range") {
-  return flatpickr(component, {
-    mode,
+function buildDatePicker(component, defaultMode = "range", onChange = null) {
+  const today = formatDate(new Date());
+  const config = {
+    mode: defaultMode,
     dateFormat: "Y-m-d",
+    conjunction: " - ",
     altInput: true,
     altFormat: "F j, Y",
     locale: {
+      rangeSeparator: " a ",
       firstDayOfWeek: 1,
       weekdays: {
         shorthand: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
@@ -72,12 +79,20 @@ function buildDatePicker(component, mode = "range") {
         ],
       },
     },
-  });
+
+    defaultDate: [today, today],
+  };
+
+  if (onChange) {
+    config["onChange"] = onChange;
+  }
+  return flatpickr(component, config);
 }
 
 module.exports = {
   sendNotification,
   formatMoney,
+  formatDateTime,
   formatDate,
   saleState,
   buildDatePicker,
