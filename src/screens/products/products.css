@@ -1,4 +1,14 @@
 /* ====== BODY ====== */
+:root{
+  --accent:#1E3A8A;
+  --card-bg:#fff;
+  --muted:#6b7280;
+  --danger:#dc2626;
+  --ok:#10b981;
+  --surface:#f8fafc;
+  --card-shadow: 0 6px 18px rgba(2,6,23,0.08);
+  --radius:10px;
+}
 .products-section {
   display: flex;
   flex-direction: column;
@@ -8,4 +18,32 @@
 
 .search-products {
   flex: 1;
+}
+
+/* fila de métricas */
+.metrics-row{
+  display:flex;
+  gap:16px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+
+/* tarjeta metric */
+.metric-card{
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  box-shadow:var(--card-shadow);
+  min-width:180px;
+  flex:1 1 220px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.metric-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
 }
