@@ -11,9 +11,9 @@ function getAllSales() {
   }
 }
 
-function getSales(toSearch, page, pageSize) {
+function getSales(page, pageSize, filter) {
   try {
-    return salesRepo.getSales(toSearch, page, pageSize);
+    return salesRepo.getSales(page, pageSize, filter);
   } catch (error) {
     console.error("Error fetching sales:", error);
     throw error;

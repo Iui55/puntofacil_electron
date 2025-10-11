@@ -5,13 +5,28 @@ export class SalesRepo {
     return db.prepare("SELECT * FROM sales").all();
   }
 
-  getSales(toSearch, page, pageSize) {
+  getSales(page, pageSize, filter) {
     const offset = (page - 1) * pageSize;
+    const baseQuery = `SELECT * FROM sales WHERE created_at BETWEEN ? AND ? 
+                       AND (CAST(id AS TEXT) LIKE '%' || ? || '%')`
+
     return {
       data: db
-        .prepare("SELECT * FROM sales LIMIT ? OFFSET ?")
-        .all(pageSize, offset),
-      total: db.prepare("SELECT COUNT(*) as count FROM sales").get().count,
+        .prepare(`${baseQuery} LIMIT ? OFFSET ?`)
+        .all(
+          filter.fromDate,
+          filter.toDate,
+          filter.toSearch || "",
+          pageSize,
+          offset
+        ),
+      total: db
+        .prepare(`SELECT COUNT(*) as count FROM (${baseQuery})`)
+        .get(
+          filter.fromDate,
+          filter.toDate,
+          filter.toSearch || "",
+        ).count,
     };
   }
 

@@ -171,8 +171,8 @@ ipcMain.handle("sales:getNextSaleNumber", (evet) => {
   return salesService.getLastSale().id + 1;
 });
 
-ipcMain.handle("sales:get", (evet, { page, pageSize, toSearch }) => {
-  return salesService.getSales(toSearch, page, pageSize);
+ipcMain.handle("sales:get", (evet, { page, pageSize, filter }) => {
+  return salesService.getSales(page, pageSize, filter);
 });
 
 ipcMain.handle("sales:add", (evet, data) => {
@@ -224,5 +224,6 @@ ipcMain.handle(
 
 app.whenReady().then(() => {
   runMigrations();
+  
   createLoginWindow();
 });
