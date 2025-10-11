@@ -55,17 +55,6 @@
     },
   });
 
-  // src/screens/sales/sales-report.js
-  // const filterSelect = document.getElementById("filterOption");
-  // const rangePicker = document.getElementById("rangePicker");
-  // const startInput = document.getElementById("startDate");
-  // const endInput = document.getElementById("endDate");
-
-  // filterSelect.addEventListener("change", () => {
-  //   rangePicker.style.display =
-  //     filterSelect.value === "range" ? "block" : "none";
-  // });
-
   // ---- Listeners Events ----
   reportBtn.addEventListener("click", async () => {
     const res = await ipcRenderer.invoke(
@@ -86,10 +75,17 @@
 
     const {fromDate, toDate} = filterOptionToDates(selected);
     rangeDate.setDate([formatDate(fromDate), formatDate(toDate)], true);
+
   });
 
+  rangeDate.config.onChange.push(function (selectedDates, dateStr, instance) {
+    if (selectedDates.length < 2) 
+      return;
+
+    loadSales(salesTable, 1, salesTable.pageSize);
+  });
+  
   rangeDate.config.onClose.push(function (selectedDates, dateStr, instance) {
-    console.log(...selectedDates);
     dateToFilterSelected(...selectedDates);
   });
   
@@ -98,12 +94,21 @@
     table,
     page = 1,
     pageSize = 10,
-    toSearch = sbSales.lastSearch || ""
+    toSearch = sbSales.lastSearch || "",
+    filterDate = rangeDate.selectedDates
   ) {
+    const [fromDate, toDate] = filterDate;
+
+    const filter = {
+      toSearch,
+      fromDate: fromDate.getTime() / 1000,
+      toDate: toDate.getTime() / 1000,
+    };
+
     const response = await ipcRenderer.invoke("sales:get", {
       page,
       pageSize,
-      toSearch,
+      filter,
     });
 
     table.currentPage = page;
