@@ -1,6 +1,7 @@
 (() => {
   const { ipcRenderer } = require("electron");
   const {
+    formatDateTime,
     formatDate,
     formatMoney,
     saleState,
@@ -9,8 +10,9 @@
 
   // ---- UI Components ----
   const reportBtn = document.getElementById("generateReportBtn");
-  const startDate = buildDatePicker(document.getElementById("startDate"));
-  // const endDate = buildDatePicker(document.getElementById("endDate"));
+  const dateFilter = document.getElementById("dateFilter");
+  const rangeDate = buildDatePicker(document.getElementById("rangeDate"));
+
 
   // ---- Components ----
   const SearchBar = require("../components/searchBar/searchBar.js");
@@ -31,7 +33,7 @@
       return {
         ...data,
         id: String(data.id).padStart(10, "0"),
-        created_at: formatDate(data.created_at),
+        created_at: formatDateTime(data.created_at),
         state: saleState(data.state),
         total_price: formatMoney(data.total_price),
       };
@@ -41,6 +43,7 @@
     },
   });
 
+  
   const sbSales = new SearchBar({
     container: document.getElementById("searchBarSales"),
     placeholder: "Buscar ventas",
@@ -52,7 +55,45 @@
     },
   });
 
-  // Load sales from main process
+  // src/screens/sales/sales-report.js
+  // const filterSelect = document.getElementById("filterOption");
+  // const rangePicker = document.getElementById("rangePicker");
+  // const startInput = document.getElementById("startDate");
+  // const endInput = document.getElementById("endDate");
+
+  // filterSelect.addEventListener("change", () => {
+  //   rangePicker.style.display =
+  //     filterSelect.value === "range" ? "block" : "none";
+  // });
+
+  // ---- Listeners Events ----
+  reportBtn.addEventListener("click", async () => {
+    const res = await ipcRenderer.invoke(
+      "generate-sales-report",
+      salesTable.data
+    );
+    if (res.ok) {
+      alert("✅ Reporte generado correctamente.\nRuta: " + res.path);
+    } else {
+      alert("❌ Error al generar reporte: " + res.error);
+    }
+  });
+
+
+  dateFilter.addEventListener("change", (event) => {
+    const selected = event.target.value;
+    if (selected == "range") return;
+
+    const {fromDate, toDate} = filterOptionToDates(selected);
+    rangeDate.setDate([formatDate(fromDate), formatDate(toDate)], true);
+  });
+
+  rangeDate.config.onClose.push(function (selectedDates, dateStr, instance) {
+    console.log(...selectedDates);
+    dateToFilterSelected(...selectedDates);
+  });
+  
+  // ---- Logic ----
   async function loadSales(
     table,
     page = 1,
@@ -68,27 +109,42 @@
     table.currentPage = page;
     table.setData(response.data, response.total);
   }
-  // src/screens/sales/sales-report.js
-  // const filterSelect = document.getElementById("filterOption");
-  // const rangePicker = document.getElementById("rangePicker");
-  // const startInput = document.getElementById("startDate");
-  // const endInput = document.getElementById("endDate");
 
-  // filterSelect.addEventListener("change", () => {
-  //   rangePicker.style.display =
-  //     filterSelect.value === "range" ? "block" : "none";
-  // });
+  function filterOptionToDates(option) {
+    const toDate = new Date();
+    const fromDate = new Date(toDate.getFullYear(), toDate.getMonth(), 1); // This month
+    switch (option) {
+      case "today":
+        fromDate.setDate(toDate.getDate());
+        break;
 
-  reportBtn.addEventListener("click", async () => {
-    const res = await ipcRenderer.invoke(
-      "generate-sales-report",
-      salesTable.data
-    );
-    console.log(res);
-    if (res.ok) {
-      alert("✅ Reporte generado correctamente.\nRuta: " + res.path);
-    } else {
-      alert("❌ Error al generar reporte: " + res.error);
+      case "yesterday":
+        fromDate.setDate(toDate.getDate() - 1);
+        break;
+
+      case "week":
+        fromDate.setDate(toDate.getDate() - toDate.getDay() + 1);
+        break;
+
+      case "month":
+        break;
     }
-  });
+    
+    return {
+      fromDate, toDate
+    };
+  }
+  
+  function dateToFilterSelected(selectedFromDate, selectedToDate) {
+    selectedFromDate = selectedFromDate.toDateString();
+    selectedToDate = selectedToDate.toDateString();
+    const optionByRange = ["today", "yesterday", "week", "month"].find((option) => {
+      let {fromDate, toDate} = filterOptionToDates(option);
+
+      return selectedFromDate === fromDate.toDateString() && selectedToDate == toDate.toDateString();
+    });
+
+    dateFilter.value = optionByRange || "range" ;
+  }
+  
 })();

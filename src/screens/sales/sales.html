@@ -4,7 +4,7 @@
     <!-- Barra de búsqueda -->
     <div class="search-sales" id="searchBarSales"></div>
 
-    <select id="filterOption">
+    <select id="dateFilter">
       <option value="today">Hoy</option>
       <option value="yesterday">Ayer</option>
       <option value="week">Esta semana</option>
@@ -12,18 +12,19 @@
       <option value="range">Rango de fechas</option>
     </select>
 
-    <div id="rangePicker" class="search-pill">
-      <i class="fa fa-calendar-o" aria-hidden="true"></i>
-      <input id="startDate" class="search-input" />
+    <div class="search-pill">
+      <i class="fa fa-calendar"></i>
+      <input id="rangeDate" class="search-input" />
     </div>
-    <button id="generateReportBtn" class="primary-btn" style="margin-top: 10px">
+
+    <button id="generateReportBtn" class="primary-btn">
       Generar PDF
     </button>
     <!-- Botón registrar venta -->
     <!-- <button id="registerSalesBtn" class="primary-btn">Registrar venta</button> -->
 
     <!-- Selector de cantidad -->
-    <div class="selector-wrapper">
+    <!-- <div class="selector-wrapper">
       <span class="toolbar-text">Mostrando</span>
       <select id="pageSize" class="select-small">
         <option value="10">10</option>
@@ -32,8 +33,8 @@
         <option value="100">100</option>
       </select>
       <span class="toolbar-text">registros</span>
-    </div>
-  </div>
+    </div> -->
+  </div> 
 
   <!-- Tabla de productos -->
   <div id="salesTable" class="table"></div>
