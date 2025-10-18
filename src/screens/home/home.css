@@ -223,6 +223,7 @@ body {
   gap: 10px;
   padding: 10px;
   align-items: center;
+  text-align: center;
 }
 
 .table-header {
