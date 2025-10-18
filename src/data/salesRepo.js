@@ -6,27 +6,24 @@ export class SalesRepo {
   }
 
   getSales(page, pageSize, filter) {
-    const offset = (page - 1) * pageSize;
     const baseQuery = `SELECT * FROM sales WHERE created_at BETWEEN ? AND ? 
-                       AND (CAST(id AS TEXT) LIKE '%' || ? || '%')`
+    AND (CAST(id AS TEXT) LIKE '%' || ? || '%')`;
+
+    let query = baseQuery;
+    const params = [filter.fromDate, filter.toDate, filter.toSearch || ""];
+
+    if (pageSize > 0) {
+      // With pagination
+      const offset = (page - 1) * pageSize;
+      params.push(pageSize, offset);
+      query += " LIMIT ? OFFSET ?";
+    }
 
     return {
-      data: db
-        .prepare(`${baseQuery} LIMIT ? OFFSET ?`)
-        .all(
-          filter.fromDate,
-          filter.toDate,
-          filter.toSearch || "",
-          pageSize,
-          offset
-        ),
+      data: db.prepare(query).all(...params),
       total: db
         .prepare(`SELECT COUNT(*) as count FROM (${baseQuery})`)
-        .get(
-          filter.fromDate,
-          filter.toDate,
-          filter.toSearch || "",
-        ).count,
+        .get(filter.fromDate, filter.toDate, filter.toSearch || "").count,
     };
   }
 
