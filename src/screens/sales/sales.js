@@ -96,6 +96,8 @@
     filterDate = rangeDate.selectedDates
   ) {
     const [fromDate, toDate] = filterDate;
+    fromDate.setHours(0, 0, 0, 0);
+    toDate.setHours(23, 59, 59, 999);
 
     const filter = {
       toSearch,
@@ -123,6 +125,7 @@
 
       case "yesterday":
         fromDate.setDate(toDate.getDate() - 1);
+        toDate.setDate(toDate.getDate() - 1);
         break;
 
       case "week":

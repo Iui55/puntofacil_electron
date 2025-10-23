@@ -18,7 +18,10 @@ function formatDateTime(value) {
 }
 
 function formatDate(date) {
-  return date.toISOString().split("T")[0];
+  // Adjust to local timezone
+  const offsetMs = date.getTimezoneOffset() * 60000;
+  const local = new Date(date.getTime() - offsetMs);
+  return local.toISOString().split("T")[0];
 }
 
 function saleState(stateId) {
