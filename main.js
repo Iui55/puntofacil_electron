@@ -3,7 +3,7 @@ const { runMigrations } = require("./src/data/database/migrations.js");
 const notificationsService = require("./src/services/notificationsService.js");
 const productsService = require("./src/services/productsService.js");
 const salesService = require("./src/services/salesService.js");
-const ReportService = require("./src/services/reportService.js");
+const reportService = require("./src/services/reportService.js");
 // const userService = require("./src/services/userService.js");
 
 const path = require("path");
@@ -187,10 +187,7 @@ ipcMain.handle("sales:add", (evet, data) => {
 
 ipcMain.handle("generate-sales-report", async (event, salesFilter) => {
   try {
-    const reportService = new ReportService();
-    console.log(salesFilter);
-    const sales = salesService.getSales(-1, -1, salesFilter);
-    console.log(sales);
+    const sales = salesService.getSales(-1, -1, salesFilter, true);
     const outputPath = await reportService.generateSalesReport(sales.data);
     await shell.openPath(outputPath); // open on finish
 

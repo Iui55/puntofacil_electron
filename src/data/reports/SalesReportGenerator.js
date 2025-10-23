@@ -62,7 +62,7 @@ class SalesReportGenerator extends PdfBaseGenerator {
         this.doc.text(`$${detail.subtotal.toFixed(2)}`, colX[3], y);
         y += 15;
 
-        if (y > 750) {
+        if (y > 720) {
           this.doc.addPage();
           y = 80;
         }
