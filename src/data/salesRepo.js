@@ -5,12 +5,15 @@ export class SalesRepo {
     return db.prepare("SELECT * FROM sales").all();
   }
 
-  getSales(page, pageSize, filter) {
+  getSales(page, pageSize, filter, includeDetails = false) {
     const baseQuery = `SELECT * FROM sales WHERE created_at BETWEEN ? AND ? 
     AND (CAST(id AS TEXT) LIKE '%' || ? || '%')`;
 
     let query = baseQuery;
     const params = [filter.fromDate, filter.toDate, filter.toSearch || ""];
+    const total = db
+      .prepare(`SELECT COUNT(*) as count FROM (${baseQuery})`)
+      .get(...params).count;
 
     if (pageSize > 0) {
       // With pagination
@@ -19,11 +22,35 @@ export class SalesRepo {
       query += " LIMIT ? OFFSET ?";
     }
 
+    const sales = db.prepare(query).all(...params);
+
+    if (!includeDetails || sales.length === 0) return { data: sales, total };
+
+    const ids = sales.map((s) => s.id).join(",");
+    const detailsQuery = `
+        SELECT
+          ds.sale_id,
+          p.name AS product_name,
+          ds.lot AS quantity,
+          ds.price AS price,
+          (ds.price * ds.lot) AS subtotal
+        FROM detail_sales ds
+        LEFT JOIN products p ON p.id = ds.product_id
+        WHERE ds.sale_id IN (${ids})`;
+
+    const details = db.prepare(detailsQuery).all();
+
+    const mappedSales = new Map(
+      sales.map((sale) => [sale.id, { ...sale, details: [] }])
+    );
+
+    for (const detail of details) {
+      mappedSales.get(detail.sale_id)?.details.push(detail);
+    }
+
     return {
-      data: db.prepare(query).all(...params),
-      total: db
-        .prepare(`SELECT COUNT(*) as count FROM (${baseQuery})`)
-        .get(filter.fromDate, filter.toDate, filter.toSearch || "").count,
+      data: Array.from(mappedSales.values()),
+      total,
     };
   }
 

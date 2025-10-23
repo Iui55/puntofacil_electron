@@ -11,9 +11,9 @@ function getAllSales() {
   }
 }
 
-function getSales(page, pageSize, filter) {
+function getSales(page, pageSize, filter, includeDetails = false) {
   try {
-    return salesRepo.getSales(page, pageSize, filter);
+    return salesRepo.getSales(page, pageSize, filter, includeDetails);
   } catch (error) {
     console.error("Error fetching sales:", error);
     throw error;
@@ -21,12 +21,12 @@ function getSales(page, pageSize, filter) {
 }
 
 function getLastSale() {
-    try {
-        return salesRepo.getLastSale() || {id: 0};
-    } catch (error) {
-        console.error("Error get sale:", error);
-        return false;
-    }
+  try {
+    return salesRepo.getLastSale() || { id: 0 };
+  } catch (error) {
+    console.error("Error get sale:", error);
+    return false;
+  }
 }
 
 function addSale(sale, userId) {
@@ -49,8 +49,8 @@ function addSale(sale, userId) {
 }
 
 module.exports = {
-    getAllSales,
-    getSales,
-    getLastSale,
-    addSale
+  getAllSales,
+  getSales,
+  getLastSale,
+  addSale,
 };
