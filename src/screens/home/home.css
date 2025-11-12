@@ -208,6 +208,7 @@ body {
 .empty-state {
   height: 100%;
   width: 32%;
+  align-self: center;
 }
 
 .empty-state.hide {

@@ -1,6 +1,12 @@
+const lottie = require("lottie-web");
+
 class TableData {
   constructor(options) {
+    this.emptyAnimation = null;
+
     this.container = options.container;
+    this.pathAnimation =
+      options.pathAnimation || "../../assets/animations/empty-state.json";
 
     this.headers = options.headers || []; // Array of { label: "Header", key: "dataKey" }
     this.actions = options.actions || []; // Array of { label: "Action", class: "CSS class", onClick: (row) => {} }
@@ -60,6 +66,10 @@ class TableData {
       await this.loadData(this.currentPage, this.pageSize);
     });
 
+    if (!this.data.length) {
+      this._emptyState();
+    }
+    // Initial data load
     this.loadData(1, this.pageSize);
   }
 
@@ -77,10 +87,11 @@ class TableData {
     this.nextPageBtn.classList.toggle("disabled", this.nextPageBtn.disabled);
 
     // Create page buttons
-    const buildTo = totalPages >= showPages + this.currentPage
+    const buildTo =
+      totalPages >= showPages + this.currentPage
         ? showPages + this.currentPage
         : totalPages;
-    
+
     const buildFrom =
       totalPages - showPages <= 0
         ? 1
@@ -89,7 +100,7 @@ class TableData {
     for (let i = buildFrom; i <= buildTo; i++) {
       this.pagesContainer.appendChild(this._buildBtnPage(i));
     }
-    
+
     if (buildTo != totalPages) {
       const btn = document.createElement("button");
       btn.classList.disabled = true;
@@ -103,8 +114,7 @@ class TableData {
   _buildBtnPage(numberPage) {
     const btn = document.createElement("button");
     btn.className = "page-number";
-    if (numberPage === this.currentPage) 
-      btn.classList.add("active");
+    if (numberPage === this.currentPage) btn.classList.add("active");
 
     btn.textContent = String(numberPage);
     btn.addEventListener("click", async () => {
@@ -124,9 +134,11 @@ class TableData {
     bodyEl.innerHTML = "";
     this._buildPagination();
     if (this.data.length === 0) {
-      bodyEl.innerHTML = `<div style="color:#6a7a9a">No hay datos para mostrar.</div>`;
+      this._emptyState();
       return;
     }
+
+    this._showTable();
 
     this.data.forEach((rowData, rowIndex) => {
       bodyEl.appendChild(this.buildRow(rowData, rowIndex));
@@ -179,6 +191,30 @@ class TableData {
       row.appendChild(col);
     });
     return row;
+  }
+
+  _emptyState() {
+    // Placeholder for empty state handling if needed in future
+    this.container.querySelector(".table").classList.add("hide");
+    this.container.querySelector(".empty-state").classList.remove("hide");
+    if (!this.emptyAnimation) {
+      this.emptyAnimation = lottie.loadAnimation({
+        container: this.container.querySelector(".empty-state"), // The container element
+        renderer: "svg", // Render as SVG
+        loop: true, // Loop the animation
+        autoplay: true, // Start playing automatically
+        path: this.pathAnimation, // Path to the Lottie JSON file
+      });
+    }
+  }
+
+  _showTable() {
+    if (this.emptyAnimation) {
+      this.emptyAnimation.destroy();
+      this.emptyAnimation = null;
+    }
+    this.container.querySelector(".table").classList.remove("hide");
+    this.container.querySelector(".empty-state").classList.add("hide");
   }
 }
 
