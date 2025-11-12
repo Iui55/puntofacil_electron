@@ -27,6 +27,7 @@
   "dependencies": {
     "better-sqlite3": "^12.4.1",
     "flatpickr": "^4.6.13",
+    "lottie-web": "^5.13.0",
     "pdfkit": "^0.17.2"
   }
 }

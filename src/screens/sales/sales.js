@@ -1,5 +1,7 @@
 (() => {
   const { ipcRenderer } = require("electron");
+  const lottie = require("lottie-web");
+
   const {
     formatDateTime,
     formatDate,
@@ -8,6 +10,7 @@
     buildDatePicker,
   } = require("../utils/utils.js");
 
+  let emptyAnimation = null;
   // ---- UI Components ----
   const reportBtn = document.getElementById("generateReportBtn");
   const dateFilter = document.getElementById("dateFilter");
@@ -63,9 +66,9 @@
     });
 
     if (res.ok) {
-      alert("✅ Reporte generado correctamente.\nRuta: " + res.path);
+      alert("Reporte generado correctamente.\nRuta: " + res.path);
     } else {
-      alert("❌ Error al generar reporte: " + res.error);
+      alert("Error al generar reporte: " + res.error);
     }
   });
 
@@ -110,6 +113,32 @@
       pageSize,
       filter,
     });
+
+    if (response.total === 0) {
+      // Hide table and show empty state animation
+      table.setData([], 0);
+      document.querySelector(".table").classList.add("hide");
+      document.querySelector(".empty-state").classList.remove("hide");
+      if (!emptyAnimation) {
+        // Load the Lottie animation
+        emptyAnimation = lottie.loadAnimation({
+          container: document.querySelector(".empty-state"), // The container element
+          renderer: "svg", // Render as SVG
+          loop: true, // Loop the animation
+          autoplay: true, // Start playing automatically
+          path: "../../assets/animations/empty-state.json", // Path to the Lottie JSON file
+        });
+      }
+      return;
+    }
+    // Show table and hide empty state animation
+    if (emptyAnimation) {
+      emptyAnimation.destroy();
+      emptyAnimation = null;
+    }
+
+    document.querySelector(".table").classList.remove("hide");
+    document.querySelector(".empty-state").classList.add("hide");
 
     table.currentPage = page;
     table.setData(response.data, response.total);

@@ -11,6 +11,7 @@ html {
 
 body {
   margin: 0;
+  overflow: hidden;
   background: transparent;
   height: 100%;
   font-family: "Poppins", sans-serif;
@@ -173,6 +174,7 @@ body {
 
 /* RIGHT panel toolbar */
 .toolbar {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -202,12 +204,27 @@ body {
   border: 1px solid #d6e0f4;
   background: #fff;
 }
+/* ====== Empty State ====== */
+.empty-state {
+  height: 100%;
+  width: 32%;
+}
+
+.empty-state.hide {
+  display: none;
+}
 
 /* ====== TableData ====== */
 .table {
   flex: 1;
+  height: 100%;
+  width: 100%;
   flex-direction: column;
   display: flex;
+}
+
+.table.hide {
+  display: none;
 }
 
 .table-box {
@@ -249,7 +266,7 @@ body {
 .table-body {
   flex-grow: 1;
   overflow-y: auto;
-  max-height: 400px;
+  max-height: 492px;
   display: flex;
   flex-direction: column;
   gap: 8px;

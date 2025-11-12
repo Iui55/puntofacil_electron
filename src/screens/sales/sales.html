@@ -17,26 +17,11 @@
       <input id="rangeDate" class="search-input" />
     </div>
 
-    <button id="generateReportBtn" class="primary-btn">
-      Generar PDF
-    </button>
-    <!-- Botón registrar venta -->
-    <!-- <button id="registerSalesBtn" class="primary-btn">Registrar venta</button> -->
-
-    <!-- Selector de cantidad -->
-    <!-- <div class="selector-wrapper">
-      <span class="toolbar-text">Mostrando</span>
-      <select id="pageSize" class="select-small">
-        <option value="10">10</option>
-        <option value="25">25</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-      </select>
-      <span class="toolbar-text">registros</span>
-    </div> -->
-  </div> 
+    <button id="generateReportBtn" class="primary-btn">Generar PDF</button>
+  </div>
 
   <!-- Tabla de productos -->
-  <div id="salesTable" class="table"></div>
+  <div id="salesTable" class="table hide"></div>
+  <div class="empty-state"></div>
 </section>
 <script src="sales.js"></script>
