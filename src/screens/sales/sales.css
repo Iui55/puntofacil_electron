@@ -1,13 +1,30 @@
 /* ====== BODY ====== */
-
 .sales-section {
   display: flex;
   flex-direction: column;
   flex: 1;
   gap: 10px;
 }
+.search-date {
+  display: flex;
+  flex: 2;
+}
 
+.range-date {
+  border: none;
+  flex: 1;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}
 /* ====== TOOLBAR ====== */
 .search-sales {
-  flex: 1;
+  flex: 3;
+}
+
+#dateFilter {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 5px 10px;
 }

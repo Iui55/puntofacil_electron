@@ -56,7 +56,7 @@ export class ProductsRepo {
     makeProduct();
     return product;
   }
-  
+
   updateProduct(product, userId) {
     let productInfo;
     const makeProduct = db.transaction(() => {

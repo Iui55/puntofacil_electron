@@ -186,7 +186,7 @@ class TableData {
           col.appendChild(btn);
         });
       } else {
-        col.textContent = presenterData[h.key] || "";
+        col.textContent = presenterData[h.key];
       }
       row.appendChild(col);
     });

@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
+    "dev": "electronmon .",
     "start": "electron .",
     "rebuild": "electron-rebuild -f -w better-sqlite3",
     "dist": "electron-builder",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "build": {
     "appId": "com.logi.puntofacil",
@@ -22,7 +23,9 @@
   "devDependencies": {
     "electron": "^38.1.2",
     "electron-builder": "^26.0.12",
-    "electron-rebuild": "^3.2.9"
+    "electron-rebuild": "^3.2.9",
+    "electronmon": "^2.0.4",
+    "jest": "^30.2.0"
   },
   "dependencies": {
     "better-sqlite3": "^12.4.1",
