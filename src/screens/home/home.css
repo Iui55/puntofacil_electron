@@ -39,7 +39,7 @@ body {
 
 /* HEADER */
 .top-bar {
-  -webkit-app-region: drag;
+  /* -webkit-app-region: drag; */
   background: #1e3a8a;
   height: 10%;
   display: flex;
