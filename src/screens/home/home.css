@@ -39,7 +39,7 @@ body {
 
 /* HEADER */
 .top-bar {
-  /* -webkit-app-region: drag; */
+  -webkit-app-region: drag;
   background: #1e3a8a;
   height: 10%;
   display: flex;
@@ -49,6 +49,10 @@ body {
   color: white;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag;
 }
 
 .logo {
