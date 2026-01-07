@@ -29,6 +29,23 @@ function getLastSale() {
   }
 }
 
+function getTempCart(user_id) {
+  try {
+    return salesRepo.getTempCart(user_id);
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    throw error;
+  }
+}
+
+function addTempSale(userId, product) {
+  try {
+    return salesRepo.addTempSale(userId, product);
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    return false;
+  }
+}
 function addSale(sale, userId) {
   try {
     const group_products = sale.products.reduce((acc, product) => {
@@ -52,5 +69,7 @@ module.exports = {
   getAllSales,
   getSales,
   getLastSale,
+  getTempCart,
+  addTempSale,
   addSale,
 };

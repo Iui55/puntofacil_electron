@@ -167,22 +167,8 @@ ipcMain.handle("products:delete", (evet, productId) => {
 });
 
 // ===== Sales IPC handlers =====
-ipcMain.handle("sales:getNextSaleNumber", (evet) => {
-  return salesService.getLastSale().id + 1;
-});
-
 ipcMain.handle("sales:get", (evet, { page, pageSize, filter }) => {
   return salesService.getSales(page, pageSize, filter);
-});
-
-ipcMain.handle("sales:add", (evet, data) => {
-  const response = salesService.addSale(data, 1);
-  if (response !== false)
-    notificationsService.sendNotification(
-      `Venta con folio: ${response} registrada`
-    );
-
-  return response;
 });
 
 ipcMain.handle("generate-sales-report", async (event, salesFilter) => {
@@ -196,6 +182,29 @@ ipcMain.handle("generate-sales-report", async (event, salesFilter) => {
     console.error("Error generando reporte:", error);
     return { ok: false, error: error.message };
   }
+});
+
+// ===== Cart IPC handlers =====
+ipcMain.handle("sales:add", (evet, data) => {
+  const response = salesService.addSale(data, 1);
+  if (response !== false)
+    notificationsService.sendNotification(
+      `Venta con folio: ${response} registrada`
+    );
+
+  return response;
+});
+
+ipcMain.handle("sales:getCart", (evet) => {
+  return salesService.getTempCart(1);
+});
+
+ipcMain.handle("sales:addToCart", (evet, product) => {
+  return salesService.addTempSale(1, product);
+});
+
+ipcMain.handle("sales:getNextSaleNumber", (evet) => {
+  return salesService.getLastSale().id + 1;
 });
 
 app.whenReady().then(() => {

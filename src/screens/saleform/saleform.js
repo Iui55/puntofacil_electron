@@ -1,11 +1,10 @@
 (() => {
   const { ipcRenderer } = require("electron");
-  const { sendNotification } = require("../utils/utils.js");
+  const { sendNotification, formatMoney } = require("../utils/utils.js");
   let saleItems = [];
 
   // ----- Helpers -----
   const $ = (sel) => document.querySelector(sel);
-  const formatCurrency = (v) => Number(v).toFixed(2);
 
   // ----- Elements UI -----
   const saleNumberInput = $("#saleNumber");
@@ -20,11 +19,42 @@
   const TableData = require("../components/tableData/tableData.js");
 
   // Components state
+  const cartTable = new TableData({
+    container: document.getElementById("saleProductsTable"),
+    tableBoxClass: "cart-table",
+    pathAnimation: "../../assets/animations/empty-car.json",
+    showPagination: false,
+    showHeaders: false,
+    headers: [
+      { label: "Producto", key: "name", flex: 4 },
+      { label: "Cantidad", key: "lot", flex: 1, class: "cart-col center" },
+      { label: "Precio", key: "price", flex: 2, class: "cart-col center" },
+    ],
+    actions: [
+      {
+        label: "Eliminar",
+        class: "delete",
+        icon: "fa fa-trash",
+        onClick: (row) => {},
+      },
+    ],
+    rowClass: "cart-row",
+    colClass: "cart-col",
+    mapRow: (data) => {
+      return {
+        ...data,
+        price: formatMoney(data.price),
+      };
+    },
+    loadData: (page, pageSize) => {
+      loadCart(cartTable);
+    },
+    data: [],
+  });
+
   const productsTable = new TableData({
     container: document.getElementById("productsTable"),
-    headers: [
-      { label: "Catálogo", key: "id" },
-    ],
+    headers: [{ label: "Catálogo", key: "id" }],
     renderRow: renderCatalogRow,
     data: [],
     loadData: (page, pageSize) => {
@@ -39,7 +69,7 @@
       loadProducts(productsTable, 1, productsTable.pageSize, toSearch);
     },
     onClear: () => {
-      loadProducts(productsTable, pageSize=productsTable.pageSize);
+      loadProducts(productsTable, (pageSize = productsTable.pageSize));
     },
   });
 
@@ -53,60 +83,70 @@
   }
 
   // ---- Add new product to sale logic -----
-  function renderSaleItems() {
-    saleItemsList.innerHTML = "";
-    if (saleItems.length === 0) {
-      saleItemsList.innerHTML = `<div style="color:#6a7a9a">No hay productos agregados.</div>`;
-      updateTotal();
-      return;
-    }
+  // function renderSaleItems() {
+  //   saleItemsList.innerHTML = "";
+  //   if (saleItems.length === 0) {
+  //     saleItemsList.innerHTML = `<div style="color:#6a7a9a">No hay productos agregados.</div>`;
+  //     updateTotal();
+  //     return;
+  //   }
 
-    saleItems.forEach((it, idx) => {
-      const row = document.createElement("div");
-      row.className = "sale-item";
+  //   saleItems.forEach((it, idx) => {
+  //     const row = document.createElement("div");
+  //     row.className = "sale-item";
 
-      const nameEl = document.createElement("div");
-      nameEl.className = "item-name";
-      nameEl.textContent = it.name;
+  //     const nameEl = document.createElement("div");
+  //     nameEl.className = "item-name";
+  //     nameEl.textContent = it.name;
 
-      const priceEl = document.createElement("div");
-      priceEl.className = "item-price";
-      priceEl.textContent = "$ " + formatCurrency(it.price);
+  //     const priceEl = document.createElement("div");
+  //     priceEl.className = "item-price";
+  //     priceEl.textContent = "$ " + formatCurrency(it.price);
 
-      const trashBtn = document.createElement("button");
-      trashBtn.className = "item-trash";
-      trashBtn.title = "Eliminar";
-      trashBtn.innerHTML = `<i class="fa-solid fa-trash"></i>`;
-      trashBtn.addEventListener("click", () => {
-        // Remove product
-        saleItems.splice(idx, 1);
-        renderSaleItems();
-        const found = productsTable.data.findIndex(
-          (product) => it.id === product.id
-        );
+  //     const trashBtn = document.createElement("button");
+  //     trashBtn.className = "item-trash";
+  //     trashBtn.title = "Eliminar";
+  //     trashBtn.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+  //     trashBtn.addEventListener("click", () => {
+  //       // Remove product
+  //       saleItems.splice(idx, 1);
+  //       renderSaleItems();
+  //       const found = productsTable.data.findIndex(
+  //         (product) => it.id === product.id
+  //       );
 
-        if (found >= 0) {
-          productsTable.data[found].stock++;
-          productsTable.setData(productsTable.data, productsTable.data.length);
-        }
-      });
+  //       if (found >= 0) {
+  //         productsTable.data[found].stock++;
+  //         productsTable.setData(productsTable.data, productsTable.data.length);
+  //       }
+  //     });
 
-      row.appendChild(nameEl);
-      row.appendChild(priceEl);
-      row.appendChild(trashBtn);
-      saleItemsList.appendChild(row);
-    });
-    updateTotal();
-  }
+  //     row.appendChild(nameEl);
+  //     row.appendChild(priceEl);
+  //     row.appendChild(trashBtn);
+  //     saleItemsList.appendChild(row);
+  //   });
+  //   updateTotal();
+  // }
 
   function updateTotal() {
     const total = saleItems.reduce((s, it) => s + Number(it.price || 0), 0);
-    totalValueEl.textContent = formatCurrency(total);
+    totalValueEl.textContent = formatMoney(total);
 
     // Update UI
     const cash = parseFloat(cashInput.value || 0);
     const change = Math.max(0, cash - total);
-    changeInput.value = formatCurrency(change);
+    changeInput.value = formatMoney(change);
+  }
+
+  // ----- Cart rendering -----
+  // Load products from main process
+  async function loadCart(table) {
+    ipcRenderer.invoke("sales:getCart").then((res) => {
+      console.log("Cart data:", res);
+      let data = res || [];
+      table.setData(data, data.length);
+    });
   }
 
   // ----- Catalog rendering (pagination + filtering) -----
@@ -162,7 +202,7 @@
     return await ipcRenderer.invoke("sales:add", { ...sale });
   }
 
-  // ----- Eventos UI -----
+  /* ==== Eventos UI ==== */
   cashInput.addEventListener("input", () => {
     // ensure numeric format
     const v = parseFloat(cashInput.value || 0) || 0;
@@ -172,8 +212,9 @@
 
   //
   function addSaleProduct(product) {
-    saleItems.push(product);
-    renderSaleItems();
+    ipcRenderer.invoke("sales:addToCart", product).then(() => {
+      loadCart(cartTable);
+    });
   }
 
   registerBtn.addEventListener("click", () => {
@@ -187,7 +228,6 @@
       sendNotification("El efectivo no alcanza el monto total", "error");
       return;
     }
-
 
     const saleRecord = {
       id: Number(saleNumberInput.value), // devuelve el nuevo número guardado

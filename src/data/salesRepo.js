@@ -92,22 +92,57 @@ export class SalesRepo {
     return saleInfo.lastInsertRowid;
   }
 
-  // addTempSale(product) {
-  //   const tempTableSale = db
-  //     .prepare(
-  //       `CREATE TABLE IF NOT EXISTS temp_sales (
-  //       id INTEGER PRIMARY KEY AUTOINCREMENT,
-  //       product_id INTEGER NOT NULL,
-  //       lot INTEGER NOT NULL,
-  //       date INTEGER DEFAULT (strftime('%s','now'))
-  //     );`
-  //     )
-  //     .run();
+  /* temp sales */
+  removeTempSales() {
+    this.verifyTempSaleTable();
+    const deleteTempSales = db.prepare("DROP TABLE IF EXISTS temp_sales").run();
+  }
 
-  //   const saleTemp = db
-  //     .prepare("INSERT INTO temp_sales (product_id, lot) VALUES (?, ?)")
-  //     .run(product.id, product.lot);
+  verifyTempSaleTable() {
+    const tempTableSale = db
+      .prepare(
+        `CREATE TABLE IF NOT EXISTS temp_sales (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            product_id INTEGER NOT NULL,
+            lot INTEGER NOT NULL,
+            date INTEGER DEFAULT (strftime('%s','now'))
+          );`
+      )
+      .run();
+  }
 
-  //   return saleTemp.lastInsertRowid;
-  // }
+  getTempCart(user_id) {
+    this.verifyTempSaleTable();
+    const info = db
+      .prepare(
+        "SELECT products.name AS name, products.price AS price, temp_sales.lot, temp_sales.product_id FROM temp_sales " +
+          "LEFT JOIN products ON products.id = temp_sales.product_id " +
+          "WHERE temp_sales.user_id = ? ORDER BY temp_sales.id ASC"
+      )
+      .all(user_id);
+    return info;
+  }
+
+  addTempSale(user_id, product) {
+    this.verifyTempSaleTable();
+    const result = db
+      .prepare("SELECT id FROM temp_sales WHERE user_id = ? AND product_id = ?")
+      .all(user_id, product.id);
+    if (result.length > 0) {
+      const updateTempSale = db
+        .prepare(
+          "UPDATE temp_sales SET lot = lot+1 WHERE user_id = ? AND product_id = ?"
+        )
+        .run(user_id, product.id);
+      return updateTempSale.lastInsertRowid;
+    }
+
+    const saleTemp = db
+      .prepare(
+        "INSERT INTO temp_sales (user_id, product_id, lot) VALUES (?, ?, ?)"
+      )
+      .run(user_id, product.id, 1);
+    return saleTemp.lastInsertRowid;
+  }
 }
